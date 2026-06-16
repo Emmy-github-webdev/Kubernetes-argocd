@@ -1,0 +1,12 @@
+resources:
+  - ../../base
+
+namespace: prod
+
+images:
+  - name: ACCOUNT_ID.dkr.ecr.eu-central-1.amazonaws.com/user-service
+    newTag: latest
+
+replicas:
+  - name: user-service
+    count: 5

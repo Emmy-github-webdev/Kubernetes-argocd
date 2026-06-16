@@ -1,5 +1,40 @@
 # Kubernetes-argocd
 
+### Architecture
+
+Source Repo
+├── user-service
+├── order-service
+├── payment-service
+└── product-service
+
+↓
+
+GitHub Actions
+
+↓
+
+ECR
+
+↓
+
+GitOps Repo
+├── apps
+│   ├── user-service
+│   │   ├── base
+│   │   └── overlays
+│   ├── order-service
+│   ├── payment-service
+│   └── product-service
+
+↓
+
+Argo CD
+
+↓
+
+EKS
+
 ### App Repo GitHub Action
 
 name: Build
