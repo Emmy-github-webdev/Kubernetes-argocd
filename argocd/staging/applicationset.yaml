@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+
+metadata:
+  name: microservices-dev
+  namespace: argocd
+
+spec:
+  generators:
+    - list:
+        elements:
+          - service: user-service
+          - service: order-service
+          - service: payment-service
+          - service: product-service
+
+  template:
+    metadata:
+      name: '{{service}}-dev'
+
+    spec:
+      project: default
+
+      source:
+        repoURL: https://github.com/<org>/gitops-repo.git
+        targetRevision: main
+        path: 'apps/{{service}}/overlays/dev'
+
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: dev
+
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true

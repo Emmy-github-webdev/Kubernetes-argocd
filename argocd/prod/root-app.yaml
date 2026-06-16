@@ -1,19 +1,20 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
+
 metadata:
-  name: user-service-dev
-  namespace: argocd
+  name: platform
+
 spec:
-  project: default
 
   source:
-    repoURL: https://github.com/company/gitops-repo
-    targetRevision: main
-    path: apps/user-service/overlays/dev
+    repoURL: https://github.com/company/gitops-repo.git
+    path: argocd
 
   destination:
     server: https://kubernetes.default.svc
-    namespace: dev
+    namespace: argocd
+
+  project: default
 
   syncPolicy:
     automated:

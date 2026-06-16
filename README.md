@@ -26,15 +26,29 @@ GitOps Repo
 │   ├── order-service
 │   ├── payment-service
 │   └── product-service
-
-↓
-
-Argo CD
+|
+|___argocd
+│   ├── dev
+│   |   ├── applicationset-apps.yaml
+|   |   ├── applicationset-infra.yaml
+│   |   └── root-app.yaml
+|   |
+│   ├── prod
+│   |   ├── applicationset.yaml
+│   |   └── root-app.yaml
+|   |
+│   ├── staging
+│       ├── applicationset.yaml
+│       └── root-app.yaml
+|
+|___infrastructure
+│   ├── ingress
+│       ├── ingress.yaml
+│   
 
 ↓
 
 EKS
-
 ### App Repo GitHub Action
 
 name: Build
