@@ -1,0 +1,9 @@
+images:
+  - name: user-service
+    newName: 579871530627.dkr.ecr.us-east-1.amazonaws.com/user-service
+    newTag: ${GITHUB_SHA}
+
+
+# kustomize edit set image \
+# A579871530627.dkr.ecr.us-east-1.amazonaws.com/test=\
+# 579871530627.dkr.ecr.us-east-1.amazonaws.com/test:${GITHUB_SHA}

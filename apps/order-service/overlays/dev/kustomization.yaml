@@ -1,0 +1,12 @@
+resources:
+  - ../../base
+
+namespace: dev
+
+images:
+  - name: 579871530627.dkr.ecr.us-east-1.amazonaws.com/order-service
+    newTag: ${GITHUB_SHA}
+
+replicas:
+  - name: order-service
+    count: 1

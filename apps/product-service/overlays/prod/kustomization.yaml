@@ -1,0 +1,12 @@
+resources:
+  - ../../base
+
+namespace: prod
+
+images:
+  - name: 579871530627.dkr.ecr.us-east-1.amazonaws.com/product-service
+    newTag: ${GITHUB_SHA}
+
+replicas:
+  - name: product-service
+    count: 1

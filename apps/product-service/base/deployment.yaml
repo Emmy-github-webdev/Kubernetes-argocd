@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-service
+
+spec:
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: product-service
+
+  template:
+    metadata:
+      labels:
+        app: product-service
+
+    spec:
+      containers:
+
+      - name: product-service
+
+        image: 579871530627.dkr.ecr.us-east-1.amazonaws.com/product-service:${GITHUB_SHA}
+
+        ports:
+        - containerPort: 8082

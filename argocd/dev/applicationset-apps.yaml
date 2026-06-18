@@ -1,0 +1,39 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+
+metadata:
+  name: dev-microservices
+  namespace: argocd
+
+spec:
+  generators:
+    - list:
+        elements:
+          - name: user-service
+          - name: order-service
+          - name: payment-service
+          - name: product-service
+
+  template:
+    metadata:
+      name: '{{name}}-dev'
+
+    spec:
+      project: default
+
+      source:
+        repoURL: https://github.com/Emmy-github-webdev/Kubernetes-argocd.git
+        targetRevision: main
+        path: apps/{{name}}/overlays/dev
+
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: dev
+
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+
+        syncOptions:
+          - CreateNamespace=true
