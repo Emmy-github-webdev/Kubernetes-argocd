@@ -1,3 +1,8 @@
+# kustomize edit set image \
+# ACCOUNT_ID.dkr.ecr.eu-central-1.amazonaws.com/order-service=\
+# ACCOUNT_ID.dkr.ecr.eu-central-1.amazonaws.com/order-service:${GITHUB_SHA}
+
+
 kustomize edit set image \
-ACCOUNT_ID.dkr.ecr.eu-central-1.amazonaws.com/user-service=\
-ACCOUNT_ID.dkr.ecr.eu-central-1.amazonaws.com/user-service:${GITHUB_SHA}
+579871530627.dkr.ecr.us-east-1.amazonaws.com/test=\
+579871530627.dkr.ecr.us-east-1.amazonaws.com/test:${GITHUB_SHA}

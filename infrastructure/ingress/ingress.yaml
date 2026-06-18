@@ -13,7 +13,7 @@ spec:
   ingressClassName: alb
 
   rules:
-    - host: api.company.com
+    - host: api.emmanuelogah.com
 
       http:
         paths:
@@ -24,7 +24,7 @@ spec:
               service:
                 name: user-service
                 port:
-                  number: 80
+                  number: 8081
 
           - path: /orders
             pathType: Prefix
@@ -32,7 +32,7 @@ spec:
               service:
                 name: order-service
                 port:
-                  number: 80
+                  number: 8083
 
           - path: /payments
             pathType: Prefix
@@ -40,7 +40,7 @@ spec:
               service:
                 name: payment-service
                 port:
-                  number: 80
+                  number: 8084
 
           - path: /products
             pathType: Prefix
@@ -48,4 +48,4 @@ spec:
               service:
                 name: product-service
                 port:
-                  number: 80
+                  number: 8082

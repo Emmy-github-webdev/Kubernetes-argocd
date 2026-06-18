@@ -7,8 +7,8 @@ metadata:
 spec:
 
   source:
-    repoURL: https://github.com/company/gitops-repo.git
-    path: apps/user-service/overlays/dev
+    repoURL: https://github.com/Emmy-github-webdev/Kubernetes-argocd.git
+    path: apps/order-service/overlays/dev
 
   destination:
     server: https://kubernetes.default.svc

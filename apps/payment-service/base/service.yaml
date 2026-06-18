@@ -1,15 +1,22 @@
-apiVersion: v1
-kind: Service
+apiVersion: argoproj.io/v1alpha1
+kind: Application
 
 metadata:
-  name: my-app
+  name: upayment-service-dev
 
 spec:
-  selector:
-    app: my-app
 
-  ports:
-    - port: 80
-      targetPort: 3000
+  source:
+    repoURL: https://github.com/Emmy-github-webdev/Kubernetes-argocd.git
+    path: apps/payment-service/overlays/dev
 
-  type: ClusterIP
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: dev
+
+  project: default
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
