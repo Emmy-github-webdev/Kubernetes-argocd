@@ -1,12 +1,12 @@
 resources:
   - ../../base
 
-namespace: dev
+namespace: prod
 
 images:
-  - name: ACCOUNT_ID.dkr.ecr.eu-central-1.amazonaws.com/user-service
-    newTag: latest
+  - name: 579871530627.dkr.ecr.us-east-1.amazonaws.com/product-service
+    newTag: ${GITHUB_SHA}
 
 replicas:
-  - name: user-service
+  - name: product-service
     count: 1

@@ -1,22 +1,13 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
+apiVersion: v1
+kind: Service
 
 metadata:
-  name: user-service-dev
+  name: order-service
 
 spec:
+  selector:
+    app: order-service
 
-  source:
-    repoURL: https://github.com/Emmy-github-webdev/Kubernetes-argocd.git
-    path: apps/order-service/overlays/dev
-
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: dev
-
-  project: default
-
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
+  ports:
+    - port: 8083
+      targetPort: 8083

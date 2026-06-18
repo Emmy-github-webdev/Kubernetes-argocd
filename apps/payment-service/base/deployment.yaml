@@ -1,6 +1,5 @@
 apiVersion: apps/v1
 kind: Deployment
-
 metadata:
   name: payment-service
 
@@ -18,10 +17,10 @@ spec:
 
     spec:
       containers:
-        - name: payment-service
 
-          # image: 123456789.dkr.ecr.eu-central-1.amazonaws.com/user-service:latest
-          image: 579871530627.dkr.ecr.us-east-1.amazonaws.com/test:latest
+      - name: payment-service
 
-          ports:
-            - containerPort: 8084
+        image: 579871530627.dkr.ecr.us-east-1.amazonaws.com/payment-service:${GITHUB_SHA}
+
+        ports:
+        - containerPort: 8084

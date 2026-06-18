@@ -1,26 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
-
 metadata:
-  name: my-app
+  name: order-service
 
 spec:
   replicas: 2
 
   selector:
     matchLabels:
-      app: my-app
+      app: product-service
 
   template:
     metadata:
       labels:
-        app: my-app
+        app: product-service
 
     spec:
       containers:
-        - name: my-app
 
-          image: 123456789012.dkr.ecr.us-east-1.amazonaws.com/my-app:1.0.0
+      - name: product-service
 
-          ports:
-            - containerPort: 3000
+        image: 579871530627.dkr.ecr.us-east-1.amazonaws.com/product-service:${GITHUB_SHA}
+
+        ports:
+        - containerPort: 8082

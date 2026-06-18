@@ -2,33 +2,32 @@ apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 
 metadata:
-  name: microservices-dev
+  name: staging-infrastructure
   namespace: argocd
 
 spec:
   generators:
     - list:
         elements:
-          - service: user-service
-          - service: order-service
-          - service: payment-service
-          - service: product-service
+          - name: ingress
+            path: infrastructure/ingress
+            namespace: kube-system
 
   template:
     metadata:
-      name: '{{service}}-dev'
+      name: '{{name}}-staging'
 
     spec:
       project: default
 
       source:
-        repoURL: https://github.com/<org>/gitops-repo.git
+        repoURL: https://github.com/Emmy-github-webdev/Kubernetes-argocd.git
         targetRevision: main
-        path: 'apps/{{service}}/overlays/dev'
+        path: '{{path}}'
 
       destination:
         server: https://kubernetes.default.svc
-        namespace: dev
+        namespace: '{{namespace}}'
 
       syncPolicy:
         automated:

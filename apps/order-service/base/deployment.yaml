@@ -20,8 +20,7 @@ spec:
 
       - name: order-service
 
-        # image: 123456789.dkr.ecr.eu-central-1.amazonaws.com/user-service:latest
-        image: 579871530627.dkr.ecr.us-east-1.amazonaws.com/test:latest
+        image: 579871530627.dkr.ecr.us-east-1.amazonaws.com/order-service:${GITHUB_SHA}
 
         ports:
         - containerPort: 8083

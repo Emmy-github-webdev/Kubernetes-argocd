@@ -2,14 +2,12 @@ apiVersion: v1
 kind: Service
 
 metadata:
-  name: my-app
+  name: product-service
 
 spec:
   selector:
-    app: my-app
+    app: product-service
 
   ports:
-    - port: 80
-      targetPort: 3000
-
-  type: ClusterIP
+    - port: 8082
+      targetPort: 8082

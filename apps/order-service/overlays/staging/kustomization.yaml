@@ -4,9 +4,8 @@ resources:
 namespace: staging
 
 images:
-  # - name: ACCOUNT_ID.dkr.ecr.eu-central-1.amazonaws.com/order-service
-  - name: 579871530627.dkr.ecr.us-east-1.amazonaws.com/test
-    newTag: latest
+  - name: 579871530627.dkr.ecr.us-east-1.amazonaws.com/order-service
+    newTag: ${GITHUB_SHA}
 
 replicas:
   - name: order-service

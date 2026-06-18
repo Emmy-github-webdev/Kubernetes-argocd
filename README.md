@@ -18,7 +18,7 @@ ECR
 
 ↓
 
-GitOps Repo
+Kubernetes-argocd Repo
 ├── apps
 │   ├── user-service
 │   │   ├── base

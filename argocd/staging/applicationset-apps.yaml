@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 
 metadata:
-  name: dev-microservices
+  name: staging-microservices
   namespace: argocd
 
 spec:
@@ -16,7 +16,7 @@ spec:
 
   template:
     metadata:
-      name: '{{name}}-dev'
+      name: '{{name}}-staging'
 
     spec:
       project: default
@@ -24,11 +24,11 @@ spec:
       source:
         repoURL: https://github.com/Emmy-github-webdev/Kubernetes-argocd.git
         targetRevision: main
-        path: apps/{{name}}/overlays/dev
+        path: apps/{{name}}/overlays/staging
 
       destination:
         server: https://kubernetes.default.svc
-        namespace: dev
+        namespace: staging
 
       syncPolicy:
         automated:

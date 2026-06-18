@@ -2,19 +2,20 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 
 metadata:
-  name: platform
+  name: prod-platform-root
+  namespace: argocd
 
 spec:
+  project: default
 
   source:
-    repoURL: https://github.com/company/gitops-repo.git
-    path: argocd
+    repoURL: https://github.com/Emmy-github-webdev/Kubernetes-argocd.git
+    targetRevision: main
+    path: argocd/prod
 
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
-
-  project: default
 
   syncPolicy:
     automated:

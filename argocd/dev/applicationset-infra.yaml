@@ -21,7 +21,7 @@ spec:
       project: default
 
       source:
-        repoURL: https://github.com/<org>/gitops-repo.git
+        repoURL: https://github.com/Emmy-github-webdev/Kubernetes-argocd.git
         targetRevision: main
         path: '{{path}}'
 

@@ -1,11 +1,11 @@
 resources:
   - ../../base
 
-namespace: dev
+namespace: staging
 
 images:
-  - name: ACCOUNT_ID.dkr.ecr.eu-central-1.amazonaws.com/user-service
-    newTag: latest
+  - name: 579871530627.dkr.ecr.us-east-1.amazonaws.com/user-service
+    newTag: ${GITHUB_SHA}
 
 replicas:
   - name: user-service
