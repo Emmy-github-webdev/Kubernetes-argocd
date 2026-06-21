@@ -5,7 +5,7 @@ namespace: staging
 
 images:
   - name: 579871530627.dkr.ecr.us-east-1.amazonaws.com/payment-service
-    newTag: ${GITHUB_SHA}
+    newTag: 8c5757ff6174e4bd85cc857f7375b60539f33a44
 
 replicas:
   - name: payment-service
