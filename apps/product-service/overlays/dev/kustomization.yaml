@@ -5,7 +5,7 @@ namespace: dev
 
 images:
   - name: 579871530627.dkr.ecr.us-east-1.amazonaws.com/product-service
-    newTag: ${GITHUB_SHA}
+    newTag: f40c788e9f4194b6fe33102e7ba174c37dcb59f4
 
 replicas:
   - name: product-service
