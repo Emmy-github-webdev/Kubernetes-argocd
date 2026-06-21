@@ -10,3 +10,12 @@ images:
 replicas:
   - name: order-service
     count: 1
+
+
+###################
+# resources:
+#   - ../../base
+#   - secretproviderclass.yaml
+
+# patches:
+#   - path: patch-sa.yaml

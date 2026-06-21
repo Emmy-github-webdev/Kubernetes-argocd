@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: order-service
+  namespace: order
 
 spec:
   replicas: 2
@@ -16,11 +17,42 @@ spec:
         app: order-service
 
     spec:
+      serviceAccountName: order-service
+
       containers:
+        - name: order-service
+          image: 579871530627.dkr.ecr.us-east-1.amazonaws.com/order-service:${GITHUB_SHA}
 
-      - name: order-service
+          ports:
+            - containerPort: 8083
 
-        image: 579871530627.dkr.ecr.us-east-1.amazonaws.com/order-service:${GITHUB_SHA}
+          env:
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: order-db-secret
+                  key: host
 
-        ports:
-        - containerPort: 8083
+            - name: DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: order-db-secret
+                  key: port
+
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: order-db-secret
+                  key: dbname
+
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: order-db-secret
+                  key: username
+
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: order-db-secret
+                  key: password
