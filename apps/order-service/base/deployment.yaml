@@ -7,13 +7,15 @@ metadata:
 spec:
   replicas: 2
 
+  revisionHistoryLimit: 5 
+
   selector:
     matchLabels:
       app: order-service
 
   strategy:
     type: RollingUpdate
-    rollingupdate:
+    rollingUpdate:
       maxSurge: 1
       maxUnavailable: 0
 
@@ -25,22 +27,64 @@ spec:
     spec:
       terminationGracePeriodSeconds: 30
       serviceAccountName: order-service
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app: order-service
 
       containers:
         - name: order-service
+          image: 579871530627.dkr.ecr.us-east-1.amazonaws.com/test/order-service:${GITHUB_SHA}
+          imagePullPolicy: IfNotPresent
+
+          securityContext:          
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+
+          resources:         
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+
+          lifecycle:              
+            preStop:
+              exec:
+                command:
+                  - sh
+                  - -c
+                  - sleep 10
+
+
           readinessProbe:
             httpGet:
-              path: /health
+              path: /actuator/health/readiness
               port: 8083
             initialDelaySeconds: 10
             periodSeconds: 5
+
           livenessProbe: 
             httpGet:
-              path: /health
+              path: /actuator/health/liveness
               port: 8083
             initialDelaySeconds: 30
             periodSeconds: 10
-          image: 579871530627.dkr.ecr.us-east-1.amazonaws.com/order-service:${GITHUB_SHA}
+            
+          startupProbe:
+            httpGet:
+              path: /health
+              port: 8083
+            failureThreshold: 30
+            periodSeconds: 10
 
           ports:
             - containerPort: 8083
