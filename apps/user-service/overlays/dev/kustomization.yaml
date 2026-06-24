@@ -7,6 +7,9 @@ images:
   - name: 579871530627.dkr.ecr.us-east-1.amazonaws.com/user-service
     newTag: ${GITHUB_SHA}
 
+patchesStrategicMerge:
+  - external-secret-patch.yaml
+  
 replicas:
   - name: user-service
     count: 1
