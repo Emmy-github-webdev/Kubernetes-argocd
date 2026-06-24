@@ -1,5 +1,5 @@
 resources:
   - deployment.yaml
   - service.yaml
-  - serviceaccount.yaml
+  - external.yaml
   - poddisruption.yaml

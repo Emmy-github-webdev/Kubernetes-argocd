@@ -22,7 +22,19 @@ Kubernetes-argocd Repo
 ├── apps
 │   ├── user-service
 │   │   ├── base
+|   │   |   ├── deployment.yaml
+|   │   |   ├── kustomization.yaml
+|   │   |   └── poddistruption.yaml
+|   │   |   └── service.yaml
 │   │   └── overlays
+|   │   |   ├── dev
+|   |   |   │   ├── databse-bootstrap-job.yaml
+|   |   |   |   ├── external.yaml
+|   |   |   |   ├── Image-patch.yaml
+|   |   |   |   ├── kustomization.yaml
+|   |   |   |   └── secretstore.yaml
+|   │   |   ├── staging
+|   │   |   └── prod
 │   ├── order-service
 │   ├── payment-service
 │   └── product-service
@@ -34,17 +46,15 @@ Kubernetes-argocd Repo
 │   |   └── root-app.yaml
 |   |
 │   ├── prod
-│   |   ├── applicationset.yaml
-│   |   └── root-app.yaml
 |   |
 │   ├── staging
-│       ├── applicationset.yaml
-│       └── root-app.yaml
 |
 |___infrastructure
-│   ├── ingress
-│       ├── ingress.yaml
-│   
+│   |   ├── dev
+│   |   |     ├── ingress.yaml
+│   |   ├── prod
+│   |   |
+│   |   ├── staging
 
 ↓
 
