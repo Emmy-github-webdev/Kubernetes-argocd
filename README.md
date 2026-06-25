@@ -25,14 +25,13 @@ Kubernetes-argocd Repo
 |   │   |   ├── deployment.yaml
 |   │   |   ├── kustomization.yaml
 |   │   |   └── poddistruption.yaml
+|   |   |   ├── external.yaml
 |   │   |   └── service.yaml
 │   │   └── overlays
 |   │   |   ├── dev
-|   |   |   │   ├── databse-bootstrap-job.yaml
-|   |   |   |   ├── external.yaml
+|   |   |   |   ├── external-secret-patch.yaml
 |   |   |   |   ├── Image-patch.yaml
 |   |   |   |   ├── kustomization.yaml
-|   |   |   |   └── secretstore.yaml
 |   │   |   ├── staging
 |   │   |   └── prod
 │   ├── order-service
@@ -52,6 +51,7 @@ Kubernetes-argocd Repo
 |___infrastructure
 │   |   ├── dev
 │   |   |     ├── ingress.yaml
+│   |   |     ├── secretstore.yaml
 │   |   ├── prod
 │   |   |
 │   |   ├── staging
