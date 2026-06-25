@@ -1,0 +1,153 @@
+apiVersion: batch/v1
+kind: Job
+
+metadata:
+  name: postgres-bootstrap
+  namespace: platform
+
+spec:
+  backoffLimit: 3
+
+  template:
+    spec:
+
+      restartPolicy: Never
+
+      containers:
+
+      - name: bootstrap
+
+        image: postgres:16
+
+        env:
+
+        - name: PGHOST
+          valueFrom:
+            secretKeyRef:
+              name: postgres-master
+              key: host
+
+        - name: PGPORT
+          valueFrom:
+            secretKeyRef:
+              name: postgres-master
+              key: port
+
+        - name: PGUSER
+          valueFrom:
+            secretKeyRef:
+              name: postgres-master
+              key: username
+
+        - name: PGPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-master
+              key: password
+
+        command:
+        - /bin/bash
+        - -c
+        - |
+          set -e
+
+          create_db() { DB_NAME=$1 
+            if ! psql -tAc \ 
+              "SELECT 1 FROM pg_database WHERE datname='${DB_NAME}'" \ 
+              | grep -q 1 
+            then 
+              echo "Creating database ${DB_NAME}" 
+              psql -c "CREATE DATABASE ${DB_NAME};" 
+            else 
+              echo "Database ${DB_NAME} already exists" 
+            fi 
+          } 
+          
+          create_user() { 
+            USERNAME=$1 
+            PASSWORD=$2 
+              if psql -tAc \ 
+                "SELECT 1 FROM pg_roles WHERE rolname='${USERNAME}'" \ 
+                | grep -q 1 
+              then 
+                echo "Updating password for ${USERNAME}" 
+                psql -c "ALTER USER ${USERNAME} WITH PASSWORD '${PASSWORD}';" 
+              else 
+                echo "Creating user ${USERNAME}" 
+                psql -c "CREATE USER ${USERNAME} WITH PASSWORD '${PASSWORD}';" 
+              fi 
+            } 
+            
+            grant_db() { 
+              DB_NAME=$1 
+              USERNAME=$2 
+              echo "Granting permissions on ${DB_NAME} to ${USERNAME}" 
+              psql -c \ 
+                "ALTER DATABASE ${DB_NAME} OWNER TO ${USERNAME};" 
+                
+              psql -c \ 
+                "GRANT ALL PRIVILEGES ON DATABASE ${DB_NAME} TO ${USERNAME};" 
+            }
+
+          ORDER_DB=$(cat /secrets/order/database)
+          ORDER_USER=$(cat /secrets/order/username)
+          ORDER_PASS=$(cat /secrets/order/password)
+
+          USER_DB=$(cat /secrets/user/database)
+          USER_USER=$(cat /secrets/user/username)
+          USER_PASS=$(cat /secrets/user/password)
+
+          PAYMENT_DB=$(cat /secrets/payment/database)
+          PAYMENT_USER=$(cat /secrets/payment/username)
+          PAYMENT_PASS=$(cat /secrets/payment/password)
+
+          PRODUCT_DB=$(cat /secrets/product/database)
+          PRODUCT_USER=$(cat /secrets/product/username)
+          PRODUCT_PASS=$(cat /secrets/product/password)
+
+          create_db "$ORDER_DB"
+          create_db "$USER_DB"
+          create_db "$PAYMENT_DB"
+          create_db "$PRODUCT_DB"
+
+          create_user "$ORDER_USER" "$ORDER_PASS"
+          create_user "$USER_USER" "$USER_PASS"
+          create_user "$PAYMENT_USER" "$PAYMENT_PASS"
+          create_user "$PRODUCT_USER" "$PRODUCT_PASS"
+
+          grant_db "$ORDER_DB" "$ORDER_USER"
+          grant_db "$USER_DB" "$USER_USER"
+          grant_db "$PAYMENT_DB" "$PAYMENT_USER"
+          grant_db "$PRODUCT_DB" "$PRODUCT_USER"
+
+        volumeMounts:
+
+        - name: order-secret
+          mountPath: /secrets/order
+
+        - name: user-secret
+          mountPath: /secrets/user
+
+        - name: payment-secret
+          mountPath: /secrets/payment
+
+        - name: product-secret
+          mountPath: /secrets/product
+
+      volumes:
+
+      - name: order-secret
+        secret:
+          secretName: order-db-config
+
+      - name: user-secret
+        secret:
+          secretName: user-db-config
+
+      - name: payment-secret
+        secret:
+          secretName: payment-db-config
+
+      - name: product-secret
+        secret:
+          secretName: product-db-config

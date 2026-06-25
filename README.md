@@ -103,3 +103,20 @@ After push
 
     git commit -am "Deploy ${GITHUB_SHA}"
     git push
+
+
+
+
+
+infrastructure
+
+├── dev
+│   ├── postgres-master-secret.yaml
+│   ├── order-db-secret.yaml
+│   ├── user-db-secret.yaml
+│   ├── payment-db-secret.yaml
+│   ├── product-db-secret.yaml
+│   └── postgres-bootstrap-job.yaml
+│   ├── cluster-secret-store.yaml
+│   ├── ingress.yaml
+│   └── namespace-database.yaml
