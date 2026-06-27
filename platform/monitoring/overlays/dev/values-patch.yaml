@@ -1,0 +1,11 @@
+grafana:
+
+  persistence:
+
+    size: 5Gi
+
+prometheus:
+
+  prometheusSpec:
+
+    retention: 5d

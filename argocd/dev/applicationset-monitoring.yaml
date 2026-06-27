@@ -1,0 +1,35 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+
+metadata:
+  name: dev-monitoring
+  namespace: argocd
+
+spec:
+  generators:
+    - list:
+        elements:
+          - name: monitoring
+            path: platform/monitoring/overlays/dev
+            namespace: monitoring
+
+  template:
+    metadata:
+      name: "{{name}}-dev"
+
+    spec:
+      project: default
+
+      source:
+        repoURL: https://github.com/Emmy-github-webdev/Kubernetes-argocd.git
+        targetRevision: main
+        path: "{{path}}"
+
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: "{{namespace}}"
+
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true

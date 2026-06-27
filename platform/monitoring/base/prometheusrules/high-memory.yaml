@@ -1,0 +1,52 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+
+metadata:
+  name: high-memory
+  namespace: monitoring
+
+spec:
+  groups:
+    - name: memory.rules
+
+      rules:
+
+        - alert: HighMemoryUsage
+
+          expr: |
+            (
+              container_memory_working_set_bytes{container!="",pod!=""}
+              /
+              container_spec_memory_limit_bytes{container!="",pod!=""}
+            ) > 0.90
+
+          for: 5m
+
+          labels:
+            severity: warning
+
+          annotations:
+            summary: "Container memory usage is high"
+            description: >
+              Container {{ $labels.container }} in pod {{ $labels.pod }}
+              is using more than 90% of its memory limit for over 5 minutes.
+              
+        - alert: CriticalMemoryUsage
+
+          expr: |
+            (
+              container_memory_working_set_bytes{container!="",pod!=""}
+              /
+              container_spec_memory_limit_bytes{container!="",pod!=""}
+            ) > 0.98
+
+          for: 2m
+
+          labels:
+            severity: critical
+
+          annotations:
+            summary: "Container is about to run out of memory"
+            description: >
+              Container {{ $labels.container }} in pod {{ $labels.pod }}
+              is consuming more than 98% of its memory limit.

@@ -1,0 +1,29 @@
+apiVersion: monitoring.coreos.com/v1
+
+kind: ServiceMonitor
+
+metadata:
+
+  name: payment-service
+
+spec:
+
+  selector:
+
+    matchLabels:
+
+      app: payment-service
+
+  namespaceSelector:
+
+    matchNames:
+
+    - payment
+
+  endpoints:
+
+  - port: http
+
+    path: /actuator/prometheus
+
+    interval: 15s

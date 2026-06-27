@@ -1,0 +1,29 @@
+apiVersion: monitoring.coreos.com/v1
+
+kind: PrometheusRule
+
+metadata:
+
+  name: high-cpu
+
+spec:
+
+  groups:
+
+  - name: cpu
+
+    rules:
+
+    - alert: HighCPU
+
+      expr: rate(container_cpu_usage_seconds_total[5m]) > 0.8
+
+      for: 5m
+
+      labels:
+
+        severity: warning
+
+      annotations:
+
+        summary: CPU usage is high
