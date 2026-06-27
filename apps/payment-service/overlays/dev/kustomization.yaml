@@ -4,8 +4,8 @@ resources:
 namespace: dev
 
 images:
-  - name: 579871530627.dkr.ecr.us-east-1.amazonaws.com/payment-service
-    newTag: 8b23ecc9d0ece92b8a7b0c1811bbd466818a1fdc
+  - name: 579871530627.dkr.ecr.us-east-1.amazonaws.com/ja-mics-ap/payment-service
+    newTag: ${GITHUB_SHA}
 
 patchesStrategicMerge:
   - external-secret-patch.yaml
