@@ -5,7 +5,7 @@ namespace: dev
 
 images:
   - name: 579871530627.dkr.ecr.us-east-1.amazonaws.com/order-service
-    newTag: ${GITHUB_SHA}
+    newTag: 8b23ecc9d0ece92b8a7b0c1811bbd466818a1fdc
 
 patchesStrategicMerge:
   - external-secret-patch.yaml
