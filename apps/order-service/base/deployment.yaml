@@ -37,7 +37,7 @@ spec:
 
       containers:
         - name: order-service
-          image: 579871530627.dkr.ecr.us-east-1.amazonaws.com/test/order-service:${GITHUB_SHA}
+          image: 579871530627.dkr.ecr.us-east-1.amazonaws.com/ja-mics-ap/order-service:${GITHUB_SHA}
           imagePullPolicy: IfNotPresent
 
           securityContext:          
