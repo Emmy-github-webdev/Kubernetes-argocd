@@ -1,14 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: order-service
+  name: product-service
+  namespace: product
 
 spec:
   replicas: 2
 
+  revisionHistoryLimit: 5 
+
   selector:
     matchLabels:
       app: product-service
+
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
 
   template:
     metadata:
@@ -16,11 +25,91 @@ spec:
         app: product-service
 
     spec:
+      terminationGracePeriodSeconds: 30
+      serviceAccountName: product-service
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app: product-service
+
       containers:
+        - name: product-service
+          image: 579871530627.dkr.ecr.us-east-1.amazonaws.com/test/product-service:${GITHUB_SHA}
+          imagePullPolicy: IfNotPresent
 
-      - name: product-service
+          securityContext:          
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
 
-        image: 579871530627.dkr.ecr.us-east-1.amazonaws.com/product-service:${GITHUB_SHA}
+          resources:         
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
 
-        ports:
-        - containerPort: 8082
+          lifecycle:              
+            preStop:
+              exec:
+                command:
+                  - sh
+                  - -c
+                  - sleep 10
+
+
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8082
+            initialDelaySeconds: 10
+            periodSeconds: 5
+
+          livenessProbe: 
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8082
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            
+          startupProbe:
+            httpGet:
+              path: /health
+              port: 8082
+            failureThreshold: 30
+            periodSeconds: 10
+
+          ports:
+            - containerPort: 8082
+
+          env:
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: product-db-secret
+                  key: host
+
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: product-db-secret
+                  key: database
+
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: product-db-secret
+                  key: username
+
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: product-db-secret
+                  key: password

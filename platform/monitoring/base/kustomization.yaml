@@ -1,0 +1,31 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: monitoring
+
+resources:
+  - namespace.yaml
+
+  # ServiceMonitors
+  - servicemonitors/user.yaml
+  - servicemonitors/order.yaml
+  - servicemonitors/payment.yaml
+  - servicemonitors/product.yaml
+
+  # Alert Rules
+  - prometheusrules/high-cpu.yaml
+  - prometheusrules/high-memory.yaml
+  - prometheusrules/pod-restarts.yaml
+  - prometheusrules/database-down.yaml
+
+configMapGenerator:
+  - name: grafana-dashboards
+    files:
+      - grafana-dashboards/kubernetes.json
+      - grafana-dashboards/jvm.json
+      - grafana-dashboards/postgres.json
+      - grafana-dashboards/predis.json
+      - grafana-dashboards/springboot.json
+
+generatorOptions:
+  disableNameSuffixHash: true
