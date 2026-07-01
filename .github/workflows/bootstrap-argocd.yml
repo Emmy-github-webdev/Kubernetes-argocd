@@ -75,3 +75,4 @@ jobs:
       - name: Show ApplicationSets
         run: |
           kubectl get applicationsets -n argocd || true 
+          
