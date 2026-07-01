@@ -26,15 +26,12 @@ jobs:
         include:
           - environment: dev
             cluster: eks-dev-cluster
-            role: ${{ secrets.AWS_ROLE_ARN_DEV }}
 
           - environment: staging
             cluster: eks-staging-cluster
-            role: ${{ secrets.AWS_ROLE_ARN_STAGING }}
 
           - environment: prod
             cluster: eks-prod-cluster
-            role: ${{ secrets.AWS_ROLE_ARN_PROD }}
 
     steps:
       - name: Checkout repository
