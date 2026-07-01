@@ -1,0 +1,77 @@
+name: Bootstrap ArgoCD
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "argocd/**"
+
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+  issues: read
+  security-events: write
+
+
+jobs:
+  bootstrap:
+    name: Bootstrap ${{ matrix.environment }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - environment: dev
+            cluster: eks-dev-cluster
+            role: ${{ secrets.AWS_ROLE_ARN}}
+
+          - environment: staging
+            cluster: eks-staging-cluster
+            role: ${{ secrets.AWS_ROLE_ARN}}
+
+          - environment: prod
+            cluster: eks-prod-cluster
+            role: ${{ secrets.AWS_ROLE_ARN}}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ matrix.role }}
+          aws-region: us-east-1
+
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v4
+        with:
+          version: latest
+
+      - name: Configure kubeconfig
+        run: |
+          aws eks update-kubeconfig \
+            --region us-east-1 \
+            --name ${{ matrix.cluster }}
+
+      - name: Apply Root Application
+        run: |
+          kubectl apply -f argocd/${{ matrix.environment }}/root-app.yaml
+
+      - name: Wait for Root Application
+        run: |
+          kubectl wait \
+            --for=condition=Established \
+            crd/applications.argoproj.io \
+            --timeout=60s || true
+
+      - name: Show Applications
+        run: |
+          kubectl get applications -n argocd || true
+
+      - name: Show ApplicationSets
+        run: |
+          kubectl get applicationsets -n argocd || true 
