@@ -1,4 +1,4 @@
-name: Bootstrap ArgoCD
+name: ArgoCD
 
 on:
   push:
@@ -19,31 +19,24 @@ jobs:
   bootstrap:
     name: Bootstrap ${{ matrix.environment }}
     runs-on: ubuntu-latest
+    environment: ${{ matrix.environment }}
 
     strategy:
-      fail-fast: false
       matrix:
         include:
           - environment: dev
             cluster: eks-dev-cluster
-            role: ${{ secrets.AWS_ROLE_ARN}}
-
           - environment: staging
             cluster: eks-staging-cluster
-            role: ${{ secrets.AWS_ROLE_ARN}}
-
           - environment: prod
             cluster: eks-prod-cluster
-            role: ${{ secrets.AWS_ROLE_ARN}}
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+      - uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ matrix.role }}
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: us-east-1
 
       - name: Install kubectl
@@ -75,4 +68,4 @@ jobs:
       - name: Show ApplicationSets
         run: |
           kubectl get applicationsets -n argocd || true 
-          
+
