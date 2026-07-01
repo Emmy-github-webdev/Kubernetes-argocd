@@ -11,7 +11,7 @@ spec:
   source:
     repoURL: https://github.com/Emmy-github-webdev/Kubernetes-argocd.git
     targetRevision: main
-    path: argocd/dev
+    path: argocd/prod
 
   destination:
     server: https://kubernetes.default.svc

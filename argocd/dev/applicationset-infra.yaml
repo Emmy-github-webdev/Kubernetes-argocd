@@ -10,7 +10,7 @@ spec:
     - list:
         elements:
           - name: ingress
-            path: infrastructure/ingress/dev
+            path: infrastructure/overlay/dev
             namespace: kube-system
 
   template:
