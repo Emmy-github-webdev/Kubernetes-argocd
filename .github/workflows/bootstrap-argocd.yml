@@ -26,10 +26,10 @@ jobs:
         include:
           - environment: dev
             cluster: eks-dev-cluster
-          - environment: staging
-            cluster: eks-staging-cluster
-          - environment: prod
-            cluster: eks-prod-cluster
+          # - environment: staging
+          #   cluster: eks-staging-cluster
+          # - environment: prod
+          #   cluster: eks-prod-cluster
 
     steps:
       - uses: actions/checkout@v4
