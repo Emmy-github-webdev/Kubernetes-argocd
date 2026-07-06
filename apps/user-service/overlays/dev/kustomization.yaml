@@ -5,7 +5,7 @@ namespace: dev
 
 images:
   - name: 579871530627.dkr.ecr.us-east-1.amazonaws.com/ja-mics-ap/user-service
-    newTag: aff7c327c957c00d5f7f4dd3fbf6f6fee7b8eea1
+    newTag: 089d71f10d4108293b01d4c883d08c8430286f93
 
 patchesStrategicMerge:
   - external-secret-patch.yaml
