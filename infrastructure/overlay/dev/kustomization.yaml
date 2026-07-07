@@ -12,3 +12,4 @@ resources:
   - postgres-master-secret.yaml
   - product-db-secret.yaml
   - user-db-secret.yaml
+  - external-secrets-sa.yaml
