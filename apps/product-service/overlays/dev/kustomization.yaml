@@ -1,5 +1,6 @@
 resources:
   - ../../base
+  - external-secret.yaml
 
 namespace: dev
 
@@ -7,8 +8,6 @@ images:
   - name: 579871530627.dkr.ecr.us-east-1.amazonaws.com/ja-mics-ap/product-service
     newTag: 089d71f10d4108293b01d4c883d08c8430286f93
 
-patchesStrategicMerge:
-  - external-secret-patch.yaml
 
 replicas:
   - name: product-service
