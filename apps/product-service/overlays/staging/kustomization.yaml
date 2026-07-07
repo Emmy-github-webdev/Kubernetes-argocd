@@ -1,5 +1,6 @@
 resources:
   - ../../base
+  - external-secret.yaml
 
 namespace: staging
 
@@ -7,8 +8,6 @@ images:
   - name: 579871530627.dkr.ecr.us-east-1.amazonaws.com/ja-mics-ap/product-service
     newTag: ${GITHUB_SHA}
 
-patchesStrategicMerge:
-  - external-secret-patch.yaml
 
 replicas:
   - name: product-service
