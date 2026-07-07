@@ -13,10 +13,6 @@ spec:
             path: infrastructure/ingress/overlays/dev
             namespace: kube-system
 
-          - name: external-secrets
-            path: infrastructure/external-secrets
-            namespace: external-secrets
-
   template:
     metadata:
       name: '{{name}}-dev'
