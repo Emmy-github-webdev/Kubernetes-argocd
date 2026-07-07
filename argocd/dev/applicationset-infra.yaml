@@ -10,8 +10,12 @@ spec:
     - list:
         elements:
           - name: ingress
-            path: infrastructure/overlay/dev
+            path: infrastructure/ingress/overlays/dev
             namespace: kube-system
+
+          - name: external-secrets
+            path: infrastructure/external-secrets
+            namespace: external-secrets
 
   template:
     metadata:
@@ -33,4 +37,5 @@ spec:
         automated:
           prune: true
           selfHeal: true
-          
+        syncOptions:
+          - CreateNamespace=true
