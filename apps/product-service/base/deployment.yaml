@@ -25,7 +25,6 @@ spec:
 
     spec:
       terminationGracePeriodSeconds: 30
-      serviceAccountName: product-service
       topologySpreadConstraints:
         - maxSkew: 1
           topologyKey: kubernetes.io/hostname
@@ -36,7 +35,7 @@ spec:
 
       containers:
         - name: product-service
-          image: 579871530627.dkr.ecr.us-east-1.amazonaws.com/ja-mics-ap/product-service:${GITHUB_SHA}
+          image: 579871530627.dkr.ecr.us-east-1.amazonaws.com/ja-mics-ap/product-service
           imagePullPolicy: IfNotPresent
 
           securityContext:          
