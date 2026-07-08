@@ -11,7 +11,7 @@ spec:
         elements:
           - name: ingress
             path: infrastructure/overlay/dev
-            namespace: kube-system
+            namespace: dev
 
   template:
     metadata:
