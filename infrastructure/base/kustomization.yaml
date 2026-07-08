@@ -3,4 +3,3 @@ kind: Kustomization
 
 resources:
   - postgres-bootstrap-job.yaml
-  - external-secrets/external-secrets.yaml
