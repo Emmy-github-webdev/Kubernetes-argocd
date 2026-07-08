@@ -10,7 +10,7 @@ spec:
     - list:
         elements:
           - name: ingress
-            path: infrastructure/overlays/dev
+            path: infrastructure/overlay/dev
             namespace: kube-system
 
   template:
@@ -35,5 +35,4 @@ spec:
           selfHeal: true
         syncOptions:
           - CreateNamespace=true
-        
         
