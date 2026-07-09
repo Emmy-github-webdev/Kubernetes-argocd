@@ -6,10 +6,10 @@ namespace: dev
 
 images:
 - name: 579871530627.dkr.ecr.us-east-1.amazonaws.com/ja-mics-ap/payment-service
-  newTag: 5e8c536ef5b688df7bb54b42d45d5a2285ec7de2
+  newTag: 99c6e01c00152db27a85f4d5227880be91f83cda
 - name: payment-service
   newName: 579871530627.dkr.ecr.us-east-1.amazonaws.com/ja-mics-ap/payment-service
-  newTag: b23b6ebb1e48c7095f99e4760155fe5d91952f6f
+  newTag: 99c6e01c00152db27a85f4d5227880be91f83cda
 
 
 replicas:
