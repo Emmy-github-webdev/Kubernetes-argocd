@@ -1,13 +1,18 @@
 resources:
-  - ../../base
-  - external-secret.yaml
+- ../../base
+- external-secret.yaml
 
 namespace: dev
 
 images:
-  - name: 579871530627.dkr.ecr.us-east-1.amazonaws.com/ja-mics-ap/order-service
-    newTag: 5e8c536ef5b688df7bb54b42d45d5a2285ec7de2
+- name: 579871530627.dkr.ecr.us-east-1.amazonaws.com/ja-mics-ap/order-service
+  newTag: 5e8c536ef5b688df7bb54b42d45d5a2285ec7de2
+- name: order-service
+  newName: 579871530627.dkr.ecr.us-east-1.amazonaws.com/ja-mics-ap/order-service
+  newTag: b23b6ebb1e48c7095f99e4760155fe5d91952f6f
 
 replicas:
-  - name: order-service
-    count: 1
+- count: 1
+  name: order-service
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
