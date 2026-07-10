@@ -94,6 +94,19 @@ spec:
                   name: order-db-secret
                   key: host
 
+            - name: REDIS_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: redis-secret
+                  key: host
+
+            - name: REDIS_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: redis-secret
+                  key: port
+                  
+
             - name: DB_NAME
               valueFrom:
                 secretKeyRef:
