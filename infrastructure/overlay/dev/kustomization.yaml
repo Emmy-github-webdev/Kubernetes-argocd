@@ -13,3 +13,4 @@ resources:
   - product-db-secret.yaml
   - user-db-secret.yaml
   - external-secrets-sa.yaml
+  - redis-secret.yaml
