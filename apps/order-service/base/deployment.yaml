@@ -133,3 +133,9 @@ spec:
                 secretKeyRef:
                   name: order-db-secret
                   key: password
+
+            - name: DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: order-db-secret
+                  key: port
