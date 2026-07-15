@@ -2,6 +2,56 @@
 
 ### Architecture
 
+
+### Action Runner Controller (ARC) - Self hosted runner
+
+```
+                      GitHub
+                         │
+                         │ Workflow Dispatch
+                         ▼
+               Actions Runner Controller
+                      (EKS)
+                         │
+               Creates ephemeral runner Pods
+                         │
+                         ▼
+               GitHub Runner Pod
+               (private subnet)
+                         │
+       ┌─────────────────┴─────────────────┐
+       │                                   │
+       ▼                                   ▼
+Terraform AWS Provider              PostgreSQL Provider
+       │                                   │
+       ▼                                   ▼
+ AWS APIs                          Private RDS (5432)
+```
+
+### Steps
+
+1. Create a GitHub App
+- Go to settings
+- Developer settings
+- GitHub Apps
+- New GitHub App
+- Permissions
+  - Repository
+    - Actions - read/Write
+    - Contents - Read
+    - Metadata - Read
+
+  - Organization
+    - Self-hosted runners
+    - Read/Write
+- Download private-key.pem after creation - private-key.pem. You will need 
+  - App ID
+  - Installation ID
+  - Private Key
+
+2. Create namespace
+
+
 Source Repo
 ├── user-service
 ├── order-service
