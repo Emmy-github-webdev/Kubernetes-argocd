@@ -3,6 +3,7 @@ kind: Job
 
 metadata:
   name: postgres-init
+  namespace: dev
   annotations:
     argocd.argoproj.io/sync-wave: "2"
 
@@ -65,25 +66,25 @@ spec:
             - name: ORDER_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: order-db
+                  name: order-db-secret
                   key: password
 
             - name: PAYMENT_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: payment-db
+                  name: payment-db-secret
                   key: password
 
             - name: PRODUCT_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: product-db
+                  name: product-db-secret
                   key: password
 
             - name: USER_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: user-db
+                  name: user-db-secret
                   key: password
 
           volumeMounts:
