@@ -7,7 +7,7 @@ namespace: dev
 images:
   - name: 579871530627.dkr.ecr.us-east-1.amazonaws.com/ja-mics-ap/user-service
     newName: 579871530627.dkr.ecr.us-east-1.amazonaws.com/ja-mics-ap/user-service
-    newTag: d4f8ca0c2d84c93ae092a78b852abb0fed566391
+    newTag: d485bd99db563c8750f6539b85afefc883a5438c
 
 
   
