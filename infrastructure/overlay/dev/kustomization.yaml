@@ -14,3 +14,4 @@ resources:
   - user-db-secret.yaml
   - external-secrets-sa.yaml
   - redis-secret.yaml
+  - job.yaml
