@@ -3,7 +3,7 @@ kind: ConfigMap
 
 metadata:
   name: postgres-init-sql
-  namespace: platform
+  namespace: dev
   annotations:
     argocd.argoproj.io/sync-wave: "1"
 

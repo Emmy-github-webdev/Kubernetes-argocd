@@ -6,7 +6,7 @@ resources:
 
   - cluster-secret-store.yaml
   - ingress.yaml
-  - namespace-platform.yaml
+  - namespace-infra.yaml
   - order-db-secret.yaml
   - payment-db-secret.yaml
   - postgres-master-secret.yaml
