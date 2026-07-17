@@ -415,4 +415,3 @@ infrastructure
 │   ├── cluster-secret-store.yaml
 │   ├── ingress.yaml
 │   └── namespace-database.yaml
-
