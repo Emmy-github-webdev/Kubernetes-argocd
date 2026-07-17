@@ -7,4 +7,3 @@ resources:
   - applicationset-apps.yaml
   - applicationset-infra.yaml
   # - applicationset-monitoring.yaml
-  
