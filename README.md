@@ -68,7 +68,6 @@ ECR
 
 ↓
 
-
 Kubernetes-argocd Repo
 ├── apps
 │   ├── user-service

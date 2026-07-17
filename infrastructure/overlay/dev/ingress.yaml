@@ -3,6 +3,7 @@ kind: Ingress
 
 metadata:
   name: ingress-dev
+  namespace: dev
 
   annotations:
     kubernetes.io/ingress.class: alb

@@ -11,16 +11,22 @@ data:
     DO $$
     BEGIN
       IF NOT EXISTS (
-        SELECT FROM pg_roles WHERE rolname = 'order_user'
+        SELECT 1 FROM pg_roles WHERE rolname = 'order_user'
       ) THEN
-        CREATE ROLE order_user LOGIN PASSWORD '${ORDER_PASSWORD}';
+        CREATE ROLE order_user;
       END IF;
+
+      ALTER ROLE order_user
+        WITH LOGIN
+            PASSWORD '${ORDER_PASSWORD}';
     END $$;
 
     SELECT 'CREATE DATABASE orderdb OWNER order_user'
     WHERE NOT EXISTS (
-      SELECT FROM pg_database WHERE datname='orderdb'
+      SELECT 1 FROM pg_database WHERE datname='orderdb'
     )\gexec
+
+    ALTER DATABASE orderdb OWNER TO order_user;
 
     GRANT CONNECT ON DATABASE orderdb TO order_user;
 
@@ -33,16 +39,22 @@ data:
     DO $$
     BEGIN
       IF NOT EXISTS (
-        SELECT FROM pg_roles WHERE rolname = 'payment_user'
+        SELECT 1 FROM pg_roles WHERE rolname = 'payment_user'
       ) THEN
-        CREATE ROLE payment_user LOGIN PASSWORD '${PAYMENT_PASSWORD}';
+        CREATE ROLE payment_user;
       END IF;
+
+      ALTER ROLE payment_user
+        WITH LOGIN
+            PASSWORD '${PAYMENT_PASSWORD}';
     END $$;
 
     SELECT 'CREATE DATABASE paymentdb OWNER payment_user'
     WHERE NOT EXISTS (
-      SELECT FROM pg_database WHERE datname='paymentdb'
+      SELECT 1 FROM pg_database WHERE datname='paymentdb'
     )\gexec
+
+    ALTER DATABASE paymentdb OWNER TO payment_user;
 
     GRANT CONNECT ON DATABASE paymentdb TO payment_user;
 
@@ -51,20 +63,25 @@ data:
     GRANT USAGE, CREATE ON SCHEMA public TO payment_user;
 
 
-
     DO $$
     BEGIN
       IF NOT EXISTS (
-        SELECT FROM pg_roles WHERE rolname = 'product_user'
+        SELECT 1 FROM pg_roles WHERE rolname = 'product_user'
       ) THEN
-        CREATE ROLE product_user LOGIN PASSWORD '${PRODUCT_PASSWORD}';
+        CREATE ROLE product_user;
       END IF;
+
+      ALTER ROLE product_user
+        WITH LOGIN
+            PASSWORD '${PRODUCT_PASSWORD}';
     END $$;
 
     SELECT 'CREATE DATABASE productdb OWNER product_user'
     WHERE NOT EXISTS (
-      SELECT FROM pg_database WHERE datname='productdb'
+      SELECT 1 FROM pg_database WHERE datname='productdb'
     )\gexec
+
+    ALTER DATABASE productdb OWNER TO product_user;
 
     GRANT CONNECT ON DATABASE productdb TO product_user;
 
@@ -77,16 +94,22 @@ data:
     DO $$
     BEGIN
       IF NOT EXISTS (
-        SELECT FROM pg_roles WHERE rolname = 'user_user'
+        SELECT 1 FROM pg_roles WHERE rolname = 'user_user'
       ) THEN
-        CREATE ROLE user_user LOGIN PASSWORD '${USER_PASSWORD}';
+        CREATE ROLE user_user;
       END IF;
+
+      ALTER ROLE user_user
+        WITH LOGIN
+            PASSWORD '${USER_PASSWORD}';
     END $$;
 
     SELECT 'CREATE DATABASE userdb OWNER user_user'
     WHERE NOT EXISTS (
-      SELECT FROM pg_database WHERE datname='userdb'
+      SELECT 1 FROM pg_database WHERE datname='userdb'
     )\gexec
+
+    ALTER DATABASE userdb OWNER TO user_user;
 
     GRANT CONNECT ON DATABASE userdb TO user_user;
 
