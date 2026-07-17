@@ -1,12 +1,14 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
+namespace: dev
+
 resources:
   - ../../base
 
   - cluster-secret-store.yaml
   - ingress.yaml
-  - namespace-platform.yaml
+  - namespace-infra.yaml
   - order-db-secret.yaml
   - payment-db-secret.yaml
   - postgres-master-secret.yaml

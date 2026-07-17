@@ -68,7 +68,6 @@ ECR
 
 ↓
 
-
 Kubernetes-argocd Repo
 ├── apps
 │   ├── user-service
@@ -416,4 +415,3 @@ infrastructure
 │   ├── cluster-secret-store.yaml
 │   ├── ingress.yaml
 │   └── namespace-database.yaml
-
