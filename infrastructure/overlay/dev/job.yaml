@@ -28,6 +28,8 @@ spec:
                 sleep 10
               done
 
+
+              apt-get update && apt-get install -y gettext
               envsubst < /sql/init.sql > /tmp/init.sql
 
               psql \
