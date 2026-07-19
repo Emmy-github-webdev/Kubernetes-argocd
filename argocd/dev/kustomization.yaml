@@ -4,5 +4,4 @@ kind: Kustomization
 resources:
   - applicationset-apps.yaml
   - applicationset-infra.yaml
-  # - applicationset-monitoring.yaml 
-   
+  # - applicationset-monitoring.yaml   
