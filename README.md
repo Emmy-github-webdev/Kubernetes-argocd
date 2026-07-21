@@ -130,6 +130,14 @@ Kubernetes-argocd Repo
     │   │       ├── api-errors.yaml
     │   │       ├── latency.yaml
     │   │       ├── disk-space.yaml
+    │   │       ├── application-latency.yaml
+    │   │       ├── disk-pressure.yaml
+    │   │       ├── ingress-5xx.yaml
+    │   │       ├── node-not-ready.yaml
+    │   │       ├── pod-crashloop.yaml
+    │   │       ├── postgres-connections.yaml
+    │   │       ├── redis.yaml
+    │   │       ├── deployment-unavailable.yaml
     │   │       └── database-down.yaml
     │   │   ├── recording-rules/
     │   │   │   ├── cluster.yaml

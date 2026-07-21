@@ -10,11 +10,19 @@ spec:
     matchLabels:
       app.kubernetes.io/component: exporter
 
+  policyTypes:
+    - Ingress
+
   ingress:
     - from:
         - namespaceSelector:
             matchLabels:
               kubernetes.io/metadata.name: dev
 
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: prometheus
+
       ports:
-        - port: 9100
+        - protocol: TCP
+          port: 9100

@@ -1,0 +1,85 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+
+metadata:
+  name: redis-alerts
+  namespace: dev
+
+  labels:
+    prometheus: kube-prometheus
+
+spec:
+  groups:
+
+    - name: redis.rules
+
+      rules:
+
+
+        - alert: RedisDown
+
+          expr: |
+            redis_up == 0
+
+          for: 5m
+
+          labels:
+            severity: critical
+
+          annotations:
+            summary: Redis is unavailable
+            description: >
+              Redis exporter cannot connect to Redis.
+
+
+        - alert: RedisHighMemoryUsage
+
+          expr: |
+            (
+              redis_memory_used_bytes
+              /
+              redis_memory_max_bytes
+            ) > 0.85
+
+          for: 10m
+
+          labels:
+            severity: warning
+
+          annotations:
+            summary: Redis memory usage above 85%
+            description: >
+              Redis memory utilization is approaching the configured limit.
+
+
+        - alert: RedisRejectedConnections
+
+          expr: |
+            increase(redis_rejected_connections_total[5m]) > 0
+
+          for: 5m
+
+          labels:
+            severity: warning
+
+          annotations:
+            summary: Redis is rejecting connections
+            description: >
+              Redis has rejected client connections recently.
+
+
+        - alert: RedisHighLatency
+
+          expr: |
+            redis_commands_duration_seconds_total
+            /
+            redis_commands_processed_total
+            > 0.1
+
+          for: 10m
+
+          labels:
+            severity: warning
+
+          annotations:
+            summary: Redis command latency is high

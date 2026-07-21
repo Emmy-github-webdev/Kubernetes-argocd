@@ -1,3 +1,0 @@
-alert: PostgresDown
-
-expr: pg_up == 0

@@ -70,6 +70,12 @@ prometheus:
       matchLabels:
         prometheus: kube-prometheus
 
+    ruleSelector:
+      matchLabels:
+        prometheus: kube-prometheus
+
+    ruleNamespaceSelector: {}
+
     serviceMonitorNamespaceSelector: {}
 
     storageSpec:

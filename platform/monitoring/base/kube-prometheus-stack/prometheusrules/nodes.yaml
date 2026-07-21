@@ -1,0 +1,54 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+
+metadata:
+  name: node-alerts
+  namespace: dev
+
+  labels:
+    prometheus: kube-prometheus
+
+spec:
+  groups:
+
+    - name: node.rules
+
+      rules:
+
+        - alert: HighCPUUsage
+
+          expr: |
+            100 -
+            (
+              avg by(instance)
+              (rate(node_cpu_seconds_total{mode="idle"}[5m]))
+              * 100
+            )
+            > 85
+
+          for: 10m
+
+          labels:
+            severity: warning
+
+          annotations:
+            summary: High CPU usage
+            description: |
+              Node {{ $labels.instance }}
+              CPU usage is above 85%.
+
+
+        - alert: DiskSpaceLow
+
+          expr: |
+            node_filesystem_avail_bytes /
+            node_filesystem_size_bytes
+            < 0.10
+
+          for: 15m
+
+          labels:
+            severity: warning
+
+          annotations:
+            summary: Disk space below 10%
