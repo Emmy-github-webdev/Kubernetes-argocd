@@ -1,51 +1,159 @@
 grafana:
+  enabled: true
 
-  adminPassword: admin
-
-  persistence:
-
-    enabled: true
-
-    size: 20Gi
+  admin:
+    existingSecret: grafana-admin
+    userKey: admin-user
+    passwordKey: admin-password
 
   service:
-
     type: ClusterIP
 
+  persistence:
+    enabled: true
+    storageClassName: gp3
+    size: 20Gi
+
+  defaultDashboardsEnabled: true
+
+  sidecar:
+    dashboards:
+      enabled: true
+      searchNamespace: ALL
+
+    datasources:
+      enabled: true
+
+  dashboards:
+    default:
+      kubernetes-cluster:
+        gnetId: 15757
+        revision: 42
+        datasource: Prometheus
+
+      node-exporter:
+        gnetId: 1860
+        revision: 37
+        datasource: Prometheus
+
+      ingress-nginx:
+        gnetId: 9614
+        revision: 1
+        datasource: Prometheus
+
+      spring-boot:
+        gnetId: 12900
+        revision: 1
+        datasource: Prometheus
+
+      jvm:
+        gnetId: 4701
+        revision: 10
+        datasource: Prometheus
+
+      postgres:
+        gnetId: 9628
+        revision: 7
+        datasource: Prometheus
+
+      redis:
+        gnetId: 11835
+        revision: 1
+        datasource: Prometheus
+
 prometheus:
-
   prometheusSpec:
-
     retention: 30d
-
     retentionSize: 30GB
 
     storageSpec:
-
       volumeClaimTemplate:
-
         spec:
-
           storageClassName: gp3
-
           accessModes:
-
-          - ReadWriteOnce
-
+            - ReadWriteOnce
           resources:
-
             requests:
-
               storage: 50Gi
 
 alertmanager:
-
   enabled: true
 
-kubeStateMetrics:
+  alertmanagerSpec:
+    retention: 120h
+    storage:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: gp3
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 10Gi
 
+    # Use Kubernetes secret for credentials
+    secrets:
+      - alertmanager-notification-secret
+
+
+  config:
+    global:
+      resolve_timeout: 5m
+
+    route:
+      group_by:
+        - alertname
+        - namespace
+
+      group_wait: 30s
+      group_interval: 5m
+      repeat_interval: 4h
+
+      receiver: default-receiver
+
+      routes:
+        - matchers:
+            - severity="critical"
+          receiver: slack-critical
+
+    receivers:
+
+      - name: default-receiver
+
+      - name: slack-critical
+        slack_configs:
+          - api_url_file: /etc/alertmanager/secrets/alertmanager-notification-secret/slack-webhook
+            channel: "#alerts"
+            send_resolved: true
+            title: >-
+              {{ .CommonAnnotations.summary }}
+
+      - name: email-alerts
+        email_configs:
+          - to: platform-team@example.com
+            from: alertmanager@example.com
+            smarthost: smtp.example.com:587
+            auth_username: alertmanager@example.com
+            auth_password_file: /etc/alertmanager/secrets/alertmanager-email-secret/password
+
+
+    inhibit_rules:
+      - source_matchers:
+          - severity="critical"
+
+        target_matchers:
+          - severity="warning"
+
+        equal:
+          - namespace
+          - alertname
+
+
+kubeStateMetrics:
   enabled: true
 
 nodeExporter:
+  enabled: true
 
+prometheusOperator:
   enabled: true
