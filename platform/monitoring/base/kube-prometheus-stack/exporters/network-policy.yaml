@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+
+metadata:
+  name: allow-prometheus
+  namespace: dev
+
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/component: exporter
+
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: dev
+
+      ports:
+        - port: 9100
