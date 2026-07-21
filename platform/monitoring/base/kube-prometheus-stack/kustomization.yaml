@@ -8,6 +8,7 @@ resources:
   - helm-release.yaml
   - exporters/
   - prometheusrules/
+  - servicemonitors/
 
 configMapGenerator:
   - name: prometheus-stack-values

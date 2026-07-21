@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+
+metadata:
+  name: aws-load-balancer-controller
+  namespace: kube-system
+
+  labels:
+    prometheus: kube-prometheus
+
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: aws-load-balancer-controller
+
+  endpoints:
+    - port: metrics
+      interval: 30s
