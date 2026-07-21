@@ -1,0 +1,27 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+
+metadata:
+  name: ingress
+  namespace: flux-system
+
+spec:
+  interval: 10m
+
+  path: ./ingress/overlays/dev
+
+  prune: true
+
+  sourceRef:
+    kind: GitRepository
+    name: infrastructure
+
+  wait: true
+
+  postBuild:
+    substitute:
+      CLUSTER_NAME: eks-dev-cluster
+      AWS_REGION: us-east-1
+      VPC_ID: vpc-0123456789abcdef
+      BASE_DOMAIN: dev.emmanuelogah.com
+      ACME_EMAIL: admin@emmanuelogah.com
