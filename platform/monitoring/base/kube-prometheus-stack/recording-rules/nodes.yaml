@@ -3,7 +3,6 @@ kind: PrometheusRule
 
 metadata:
   name: node-recording-rules
-  namespace: dev
 
   labels:
     prometheus: kube-prometheus

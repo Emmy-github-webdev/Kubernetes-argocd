@@ -3,7 +3,6 @@ kind: HelmRelease
 
 metadata:
   name: postgres-exporter
-  namespace: dev
 
 spec:
   interval: 30m

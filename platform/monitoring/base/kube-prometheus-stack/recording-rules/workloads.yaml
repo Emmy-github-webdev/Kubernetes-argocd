@@ -3,7 +3,6 @@ kind: PrometheusRule
 
 metadata:
   name: workload-recording-rules
-  namespace: dev
 
   labels:
     prometheus: kube-prometheus

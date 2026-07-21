@@ -3,7 +3,6 @@ kind: NetworkPolicy
 
 metadata:
   name: allow-prometheus
-  namespace: dev
 
 spec:
   podSelector:
@@ -17,7 +16,7 @@ spec:
     - from:
         - namespaceSelector:
             matchLabels:
-              kubernetes.io/metadata.name: dev
+              kubernetes.io/metadata.name: monitoring
 
           podSelector:
             matchLabels:

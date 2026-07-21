@@ -3,7 +3,6 @@ kind: PrometheusRule
 
 metadata:
   name: application-alerts
-  namespace: dev
 
   labels:
     prometheus: kube-prometheus

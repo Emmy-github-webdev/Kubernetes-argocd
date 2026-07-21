@@ -3,7 +3,6 @@ kind: ServiceMonitor
 
 metadata:
   name: payment-service
-  namespace: dev
 
   labels:
     prometheus: kube-prometheus

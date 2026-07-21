@@ -3,7 +3,6 @@ kind: ServiceMonitor
 
 metadata:
   name: redis
-  namespace: dev
 
   labels:
     prometheus: kube-prometheus
