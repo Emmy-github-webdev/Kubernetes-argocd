@@ -11,6 +11,8 @@ spec:
   selector:
     matchLabels:
       app: product-service
+      networkpolicy.enabled: "true"
+      pdb.enabled: "true"
 
   strategy:
     type: RollingUpdate

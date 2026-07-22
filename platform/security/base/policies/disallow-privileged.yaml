@@ -2,7 +2,7 @@ apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 
 metadata:
-  name: disallow-latest-tag
+  name: disallow-privileged
 
 spec:
   validationFailureAction: Audit
@@ -11,17 +11,13 @@ spec:
 
   rules:
 
-    - name: validate-image-tag
+    - name: privileged-container
 
       match:
         any:
           - resources:
               kinds:
-                - Deployment
-                - StatefulSet
-                - DaemonSet
-                - Job
-                - CronJob
+                - Pod
 
       exclude:
         any:
@@ -32,11 +28,10 @@ spec:
                 - flux-system
 
       validate:
-        message: "Images must use a version tag and cannot use latest."
+        message: "Privileged containers are not allowed."
 
         pattern:
           spec:
-            template:
-              spec:
-                containers:
-                  - image: "!*:latest"
+            containers:
+              - securityContext:
+                  privileged: "false"

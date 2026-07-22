@@ -2,7 +2,7 @@ apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 
 metadata:
-  name: disallow-latest-tag
+  name: require-non-root
 
 spec:
   validationFailureAction: Audit
@@ -11,7 +11,7 @@ spec:
 
   rules:
 
-    - name: validate-image-tag
+    - name: run-as-non-root
 
       match:
         any:
@@ -20,8 +20,6 @@ spec:
                 - Deployment
                 - StatefulSet
                 - DaemonSet
-                - Job
-                - CronJob
 
       exclude:
         any:
@@ -32,11 +30,11 @@ spec:
                 - flux-system
 
       validate:
-        message: "Images must use a version tag and cannot use latest."
+        message: "Containers must run as non-root."
 
         pattern:
           spec:
             template:
               spec:
-                containers:
-                  - image: "!*:latest"
+                securityContext:
+                  runAsNonRoot: true

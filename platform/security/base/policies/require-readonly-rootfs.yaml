@@ -2,7 +2,7 @@ apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 
 metadata:
-  name: disallow-latest-tag
+  name: require-readonly-rootfs
 
 spec:
   validationFailureAction: Audit
@@ -11,7 +11,7 @@ spec:
 
   rules:
 
-    - name: validate-image-tag
+    - name: readonly-root-filesystem
 
       match:
         any:
@@ -20,8 +20,6 @@ spec:
                 - Deployment
                 - StatefulSet
                 - DaemonSet
-                - Job
-                - CronJob
 
       exclude:
         any:
@@ -32,11 +30,12 @@ spec:
                 - flux-system
 
       validate:
-        message: "Images must use a version tag and cannot use latest."
+        message: "Containers must use a read-only root filesystem."
 
         pattern:
           spec:
             template:
               spec:
                 containers:
-                  - image: "!*:latest"
+                  - securityContext:
+                      readOnlyRootFilesystem: true

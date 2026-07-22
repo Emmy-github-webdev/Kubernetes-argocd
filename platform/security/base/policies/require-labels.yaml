@@ -2,7 +2,7 @@ apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 
 metadata:
-  name: disallow-latest-tag
+  name: require-labels
 
 spec:
   validationFailureAction: Audit
@@ -11,7 +11,7 @@ spec:
 
   rules:
 
-    - name: validate-image-tag
+    - name: require-standard-labels
 
       match:
         any:
@@ -20,8 +20,6 @@ spec:
                 - Deployment
                 - StatefulSet
                 - DaemonSet
-                - Job
-                - CronJob
 
       exclude:
         any:
@@ -32,11 +30,13 @@ spec:
                 - flux-system
 
       validate:
-        message: "Images must use a version tag and cannot use latest."
+
+        message: "Resources must include standard Kubernetes labels."
 
         pattern:
-          spec:
-            template:
-              spec:
-                containers:
-                  - image: "!*:latest"
+          metadata:
+            labels:
+              app.kubernetes.io/name: "?*"
+              app.kubernetes.io/component: "?*"
+              app.kubernetes.io/part-of: "?*"
+              app.kubernetes.io/version: "?*"
