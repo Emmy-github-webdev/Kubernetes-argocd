@@ -1,5 +1,7 @@
 # Kubernetes-argocd
 
+Building it this way will help you understand not only Kubernetes, but also how production platforms are assembled: GitOps, observability, security, networking, and application instrumentation.
+
 ### Architecture
 
 

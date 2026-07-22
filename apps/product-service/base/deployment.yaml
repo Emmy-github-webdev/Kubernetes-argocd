@@ -3,6 +3,10 @@ kind: Deployment
 metadata:
   name: product-service
 
+  annotations:
+
+    instrumentation.opentelemetry.io/inject-java: "true"
+
 spec:
   replicas: 2
 
