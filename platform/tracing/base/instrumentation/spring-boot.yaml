@@ -3,7 +3,6 @@ kind: Instrumentation
 
 metadata:
   name: spring-boot-instrumentation
-  namespace: tracing
 
 spec:
 

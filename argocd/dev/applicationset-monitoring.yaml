@@ -10,8 +10,8 @@ spec:
     - list:
         elements:
           - name: monitoring
-            path: platform/monitoring/overlays/dev
-            namespace: monitoring
+            path: platform/overlays/dev
+            namespace: dev
 
   template:
     metadata:

@@ -5,8 +5,6 @@ metadata:
 
   name: allow-tracing
 
-  namespace: tracing
-
 
 spec:
 

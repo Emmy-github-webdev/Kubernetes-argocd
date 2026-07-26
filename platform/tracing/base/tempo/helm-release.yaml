@@ -3,7 +3,6 @@ kind: HelmRelease
 
 metadata:
   name: tempo
-  namespace: tracing
 
 spec:
   interval: 30m

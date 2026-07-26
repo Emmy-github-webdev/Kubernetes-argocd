@@ -425,3 +425,34 @@ infrastructure
 │   ├── cluster-secret-store.yaml
 │   ├── ingress.yaml
 │   └── namespace-database.yaml
+
+
+platform/
+├── monitoring/
+│   ├── base/
+│   └── overlays/
+│       ├── dev/
+│       ├── staging/
+│       └── prod/
+├── logging/
+│   ├── base/
+│   └── overlays/
+│       ├── dev/
+│       ├── staging/
+│       └── prod/
+├── networking/
+│   ├── base/
+│   └── overlays/
+│       ├── dev/
+│       ├── staging/
+│       └── prod/
+└── tracing/
+|   ├── base/
+|   └── overlays/
+|       ├── dev/
+|       ├── staging/
+|       └── prod/
+├── overlays/
+│       ├── dev/
+│       ├── staging/
+│       └── prod/

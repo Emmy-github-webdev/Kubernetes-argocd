@@ -3,6 +3,4 @@ kind: Kustomization
 
 
 resources:
-  - helm-release.yaml
-  - help-repository.yaml
-  - values.yaml
+  - ../../base/
