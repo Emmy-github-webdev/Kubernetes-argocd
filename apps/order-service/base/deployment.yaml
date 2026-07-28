@@ -3,6 +3,10 @@ kind: Deployment
 metadata:
   name: order-service
 
+  annotations:
+
+    instrumentation.opentelemetry.io/inject-java: "true"
+
 spec:
   replicas: 2
 
@@ -22,6 +26,8 @@ spec:
     metadata:
       labels:
         app: order-service
+        networkpolicy.enabled: "true"
+        pdb.enabled: "true"
 
     spec:
       terminationGracePeriodSeconds: 30

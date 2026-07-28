@@ -1,38 +1,31 @@
-apiVersion: argoproj.io/v1alpha1
-
-kind: Application
-
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
 metadata:
-  name: monitoring
-
+  name: prometheus-stack
+  
 spec:
+  interval: 30m
 
-  project: default
+  chart:
+    spec:
+      chart: kube-prometheus-stack
+      version: "72.6.0"
+      sourceRef:
+        kind: HelmRepository
+        name: prometheus-community
+        namespace: flux-system
 
-  source:
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
 
-    repoURL: https://prometheus-community.github.io/helm-charts
+  upgrade:
+    remediation:
+      retries: 3
+      remediateLastFailure: true
 
-    chart: kube-prometheus-stack
-
-    targetRevision: 72.6.0
-
-    helm:
-
-      valueFiles:
-
-      - values.yaml
-
-  destination:
-
-    server: https://kubernetes.default.svc
-
-    namespace: monitoring
-
-  syncPolicy:
-
-    automated:
-
-      prune: true
-
-      selfHeal: true
+  valuesFrom:
+    - kind: ConfigMap
+      name: prometheus-stack-values
+      valuesKey: values.yaml

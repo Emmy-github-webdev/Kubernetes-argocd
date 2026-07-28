@@ -16,6 +16,7 @@ metadata:
     # Redirect HTTP to HTTPS
     alb.ingress.kubernetes.io/ssl-redirect: '443'
 
+    external-dns.alpha.kubernetes.io/hostname: api.dev.emmanuelogah.com
 
 spec:
   ingressClassName: alb

@@ -1,5 +1,7 @@
 # Kubernetes-argocd
 
+Building it this way will help you understand not only Kubernetes, but also how production platforms are assembled: GitOps, observability, security, networking, and application instrumentation.
+
 ### Architecture
 
 
@@ -130,6 +132,14 @@ Kubernetes-argocd Repo
     │   │       ├── api-errors.yaml
     │   │       ├── latency.yaml
     │   │       ├── disk-space.yaml
+    │   │       ├── application-latency.yaml
+    │   │       ├── disk-pressure.yaml
+    │   │       ├── ingress-5xx.yaml
+    │   │       ├── node-not-ready.yaml
+    │   │       ├── pod-crashloop.yaml
+    │   │       ├── postgres-connections.yaml
+    │   │       ├── redis.yaml
+    │   │       ├── deployment-unavailable.yaml
     │   │       └── database-down.yaml
     │   │   ├── recording-rules/
     │   │   │   ├── cluster.yaml
@@ -415,3 +425,34 @@ infrastructure
 │   ├── cluster-secret-store.yaml
 │   ├── ingress.yaml
 │   └── namespace-database.yaml
+
+
+platform/
+├── monitoring/
+│   ├── base/
+│   └── overlays/
+│       ├── dev/
+│       ├── staging/
+│       └── prod/
+├── logging/
+│   ├── base/
+│   └── overlays/
+│       ├── dev/
+│       ├── staging/
+│       └── prod/
+├── networking/
+│   ├── base/
+│   └── overlays/
+│       ├── dev/
+│       ├── staging/
+│       └── prod/
+└── tracing/
+|   ├── base/
+|   └── overlays/
+|       ├── dev/
+|       ├── staging/
+|       └── prod/
+├── overlays/
+│       ├── dev/
+│       ├── staging/
+│       └── prod/

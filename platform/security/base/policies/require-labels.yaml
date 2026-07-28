@@ -1,0 +1,42 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+
+metadata:
+  name: require-labels
+
+spec:
+  validationFailureAction: Audit
+
+  background: true
+
+  rules:
+
+    - name: require-standard-labels
+
+      match:
+        any:
+          - resources:
+              kinds:
+                - Deployment
+                - StatefulSet
+                - DaemonSet
+
+      exclude:
+        any:
+          - resources:
+              namespaces:
+                - kube-system
+                - kyverno
+                - flux-system
+
+      validate:
+
+        message: "Resources must include standard Kubernetes labels."
+
+        pattern:
+          metadata:
+            labels:
+              app.kubernetes.io/name: "?*"
+              app.kubernetes.io/component: "?*"
+              app.kubernetes.io/part-of: "?*"
+              app.kubernetes.io/version: "?*"

@@ -3,6 +3,10 @@ kind: Deployment
 metadata:
   name: user-service
 
+  annotations:
+
+    instrumentation.opentelemetry.io/inject-java: "true"
+
 spec:
   replicas: 2
 
@@ -11,6 +15,8 @@ spec:
   selector:
     matchLabels:
       app: user-service
+      networkpolicy.enabled: "true"
+      pdb.enabled: "true"
 
   strategy:
     type: RollingUpdate

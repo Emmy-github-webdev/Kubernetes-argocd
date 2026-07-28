@@ -1,0 +1,12 @@
+replicas: 2
+
+serviceMonitor:
+  enabled: true
+  additionalLabels:
+    prometheus: kube-prometheus
+
+args:
+  - --cert-dir=/tmp
+  - --kubelet-preferred-address-types=InternalIP,Hostname
+  - --kubelet-use-node-status-port
+  - --metric-resolution=15s

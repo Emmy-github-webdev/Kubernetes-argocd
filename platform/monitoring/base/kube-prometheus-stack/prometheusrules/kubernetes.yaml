@@ -1,0 +1,48 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+
+metadata:
+  name: kubernetes-alerts
+
+  labels:
+    prometheus: kube-prometheus
+
+spec:
+  groups:
+
+    - name: kubernetes.rules
+
+      rules:
+
+        - alert: PodCrashLooping
+
+          expr: |
+            increase(kube_pod_container_status_restarts_total[15m]) > 5
+
+          for: 10m
+
+          labels:
+            severity: warning
+
+          annotations:
+            summary: Pod is restarting repeatedly
+            description: |
+              Pod {{ $labels.namespace }}/{{ $labels.pod }}
+              has restarted more than 5 times in 15 minutes.
+
+
+        - alert: PodNotReady
+
+          expr: |
+            kube_pod_status_ready{condition="false"} == 1
+
+          for: 15m
+
+          labels:
+            severity: warning
+
+          annotations:
+            summary: Pod is not ready
+            description: |
+              Pod {{ $labels.namespace }}/{{ $labels.pod }}
+              has been unavailable for 15 minutes.

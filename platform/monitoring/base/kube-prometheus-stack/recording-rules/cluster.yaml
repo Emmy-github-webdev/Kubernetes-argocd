@@ -1,0 +1,35 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+
+metadata:
+  name: cluster-recording-rules
+  
+  labels:
+    prometheus: kube-prometheus
+
+spec:
+  groups:
+    - name: cluster.recording.rules
+      interval: 30s
+
+      rules:
+
+        - record: cluster:cpu_usage:ratio
+
+          expr: |
+            1 -
+            avg(
+              rate(node_cpu_seconds_total{
+                mode="idle"
+              }[5m])
+            )
+
+        - record: cluster:memory_usage:ratio
+
+          expr: |
+            1 -
+            (
+              sum(node_memory_MemAvailable_bytes)
+              /
+              sum(node_memory_MemTotal_bytes)
+            )

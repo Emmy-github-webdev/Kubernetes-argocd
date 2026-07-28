@@ -1,0 +1,28 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+
+metadata:
+  name: require-networkpolicy
+
+spec:
+  validationFailureAction: Audit
+
+  background: true
+
+  rules:
+
+    - name: require-networkpolicy-label
+
+      match:
+        any:
+          - resources:
+              kinds:
+                - Deployment
+
+      validate:
+        message: "Deployment must define networkpolicy.enabled=true label."
+
+        pattern:
+          metadata:
+            labels:
+              networkpolicy.enabled: "true"

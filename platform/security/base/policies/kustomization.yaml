@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - require-probes.yaml
+  - require-limits.yaml
+  - disallow-latest-tag.yaml
+  - disallow-privileged.yaml
+  - disallow-hostpath.yaml
+  - require-readonly-rootfs.yaml
+  - require-non-root.yaml
+  - require-networkpolicy.yaml
+  - require-pdb.yaml
+  - require-labels.yaml
+  - policy-exception.yaml
