@@ -28,6 +28,8 @@ spec:
     metadata:
       labels:
         app: product-service
+        networkpolicy.enabled: "true"
+        pdb.enabled: "true"
 
     spec:
       terminationGracePeriodSeconds: 30
