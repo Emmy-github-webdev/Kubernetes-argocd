@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+
+metadata:
+  name: external-dns
+  namespace: argocd
+
+spec:
+  source:
+    helm:
+      values: |
+        provider: aws
+
+        policy: sync
+
+        registry: txt
+
+        txtOwnerId: eks-dev-cluster
+
+        domainFilters:
+          - api.dev.emmanuelogah.com
+
+        serviceAccount:
+          create: true
+          name: external-dns
+
+        serviceMonitor:
+          enabled: true
+          additionalLabels:
+            prometheus: kube-prometheus

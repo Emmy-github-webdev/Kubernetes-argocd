@@ -4,5 +4,16 @@ kind: Kustomization
 namespace: dev
 
 resources:
-  - monitoring-namespace.yaml
   - ../../base
+  - monitoring-namespace.yaml
+  - kube-prometheus-stack-patch.yaml
+  - order/application.yaml
+  - payment/application.yaml
+  - product/application.yaml
+  - user/application.yaml
+  - postgres-exporter-patch.yaml
+  - values-dev.yaml
+
+
+patches:
+  - path: kube-prometheus-stack-patch.yaml

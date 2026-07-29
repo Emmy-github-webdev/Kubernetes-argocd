@@ -1,0 +1,45 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+
+metadata:
+  name: external-dns
+  namespace: argocd
+
+spec:
+  project: default
+
+  source:
+    repoURL: https://kubernetes-sigs.github.io/external-dns
+    chart: external-dns
+    targetRevision: 1.18.0
+
+    helm:
+      values: |
+        provider: aws
+
+        policy: sync
+
+        registry: txt
+
+        txtOwnerId: REPLACE_ME
+
+        domainFilters:
+          - REPLACE_ME
+
+        serviceAccount:
+          create: true
+          name: external-dns
+
+        serviceMonitor:
+          enabled: true
+          additionalLabels:
+            prometheus: kube-prometheus
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kube-system
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
