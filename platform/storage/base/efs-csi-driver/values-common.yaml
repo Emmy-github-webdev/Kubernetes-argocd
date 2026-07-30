@@ -1,0 +1,6 @@
+controller:
+  replicaCount: 2
+
+serviceAccount:
+  create: true
+  name: efs-csi-controller-sa
