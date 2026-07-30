@@ -8,4 +8,5 @@ resources:
   - ../../networking/overlays/dev
   - ../../security/overlays/dev
   - ../../tracing/overlays/dev
-    - ../../storage/overlays/dev
+  - ../../storage/overlays/dev
+  - platform-namespace.yaml

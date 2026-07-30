@@ -5,7 +5,6 @@ namespace: dev
 
 resources:
   - ../../base
-  - monitoring-namespace.yaml
   - order/application.yaml
   - payment/application.yaml
   - product/application.yaml

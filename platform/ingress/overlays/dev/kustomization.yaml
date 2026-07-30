@@ -6,7 +6,6 @@ namespace: dev
 resources:
   - ../../base
   - letsencrypt.yaml
-  - ingress-namespace.yaml
 
 patches:
   - path: external-dns-patch.yaml
