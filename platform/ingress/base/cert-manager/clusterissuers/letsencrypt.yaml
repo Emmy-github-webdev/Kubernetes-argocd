@@ -11,7 +11,7 @@ spec:
     server: https://acme-v02.api.letsencrypt.org/directory
 
     privateKeySecretRef:
-      name: letsencrypt
+      name: letsencrypt-account-key
 
     solvers:
       - http01:

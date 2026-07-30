@@ -6,6 +6,9 @@ metadata:
   namespace: argocd
 
 spec:
+  destination:
+    namespace: dev
+    
   source:
     helm:
       values: |
