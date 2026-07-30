@@ -9,7 +9,6 @@ resources:
   - payment/application.yaml
   - product/application.yaml
   - user/application.yaml
-  - values-dev.yaml
 
 
 patches:
