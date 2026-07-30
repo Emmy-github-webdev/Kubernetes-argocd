@@ -11,7 +11,7 @@ metadata:
 
     # HTTPS configuration
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80},{"HTTPS":443}]'
-    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:579871530627:certificate/d0ddcc04-09b5-4ffe-9910-d01b165fdb26
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:579871530627:certificate/19fbd243-97dd-45ab-820a-624c69234df6
 
     # Redirect HTTP to HTTPS
     alb.ingress.kubernetes.io/ssl-redirect: '443'
