@@ -6,6 +6,8 @@ namespace: dev
 resources:
   - ../../base
   - ingress-namespace.yaml
-  - external-dns-patch.yaml
-  - aws-load-balancer-controller-patch.yaml
-  - letsencrypt-patch.yaml
+
+patches:
+  - path: external-dns-patch.yaml
+  - path: aws-load-balancer-controller-patch.yaml
+  - path: letsencrypt-patch.yaml
