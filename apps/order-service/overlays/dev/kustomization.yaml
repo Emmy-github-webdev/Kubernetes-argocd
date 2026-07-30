@@ -10,7 +10,7 @@ namespace: dev
 images:
   - name: 579871530627.dkr.ecr.us-east-1.amazonaws.com/ja-mics-ap/order-service
     newName: 579871530627.dkr.ecr.us-east-1.amazonaws.com/ja-mics-ap/order-service
-    newTag: cc4950da0f80d7c9c44c52192faec727123b8a98
+    newTag: 60bd3c6d9e924a7309f3c54b87743ac562d6c6fc
 
 replicas:
 - count: 1
