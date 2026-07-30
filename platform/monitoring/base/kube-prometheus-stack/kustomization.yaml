@@ -11,7 +11,7 @@ resources:
   - recording-rules/
   - redis-exporter/
   - servicemonitors/
-   - application.yaml
+  - application.yaml
   - external-secret.yaml
   - values-common.yaml
   
