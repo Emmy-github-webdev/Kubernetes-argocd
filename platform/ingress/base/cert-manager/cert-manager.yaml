@@ -1,18 +1,26 @@
-source:
-  repoURL: https://charts.jetstack.io
-  chart: cert-manager
-  targetRevision: v1.18.2
+apiVersion: argoproj.io/v1alpha1
+kind: Application
 
-  helm:
-    values: |
-      crds:
-        enabled: true
+metadata:
+  name: cert-manager
+  namespace: argocd
 
-      replicaCount: 2
+spec:
+  project: default
 
-      prometheus:
-        enabled: true
-        servicemonitor:
-          enabled: true
-          labels:
-            prometheus: kube-prometheus
+  source:
+    repoURL: https://charts.jetstack.io
+    chart: cert-manager
+    targetRevision: v1.18.2
+
+    helm:
+      valueFiles:
+        - values-common.yaml
+
+  destination:
+    server: https://kubernetes.default.svc
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
