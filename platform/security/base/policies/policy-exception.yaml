@@ -17,4 +17,4 @@ spec:
           namespaces:
             - kube-system
             - kyverno
-            - flux-system
+            - argocd
