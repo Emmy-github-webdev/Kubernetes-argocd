@@ -4,7 +4,7 @@ kind: Kustomization
 
 resources:
   - ../../base/
-  - application-patch.yaml
+  - security-namespace.yaml
 
 patches:
   - path: application-patch.yaml

@@ -5,3 +5,4 @@ namespace: dev
 
 resources:
   - ../../base
+  - tracing-namespace.yaml
