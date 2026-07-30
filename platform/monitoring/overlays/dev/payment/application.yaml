@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 
 metadata:
-  name: product-postgres-exporter
+  name: payment-postgres-exporter
   namespace: argocd
 
 spec:
@@ -20,7 +20,7 @@ spec:
 
     config:
       datasource:
-        host: order-postgres.dev.svc.cluster.local
+        host: payment-postgres.dev.svc.cluster.local
         port: "5432"
         database: paymentdb
 
