@@ -3,7 +3,5 @@ kind: Kustomization
 
 
 resources:
-  - helm-release.yaml
-  - help-repository.yaml
-  - pipelines.yaml
-  - values.yaml
+  - application.yaml
+  - values-common.yaml

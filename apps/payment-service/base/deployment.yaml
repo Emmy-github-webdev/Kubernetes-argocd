@@ -103,6 +103,14 @@ spec:
             - containerPort: 8084
 
           env:
+            - name: OTEL_SERVICE_NAME
+              value: payment-service
+
+            - name: OTEL_RESOURCE_ATTRIBUTES
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+                  
             - name: DB_HOST
               valueFrom:
                 secretKeyRef:
