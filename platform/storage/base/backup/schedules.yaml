@@ -4,6 +4,8 @@ kind: Schedule
 metadata:
   name: daily-backup
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
 
 spec:
   schedule: "0 2 * * *"

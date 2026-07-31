@@ -3,7 +3,9 @@ kind: ClusterPolicy
 
 metadata:
   name: require-pdb
-
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+    
 spec:
   validationFailureAction: Audit
 

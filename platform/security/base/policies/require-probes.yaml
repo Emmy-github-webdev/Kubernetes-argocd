@@ -3,7 +3,9 @@ kind: ClusterPolicy
 
 metadata:
   name: require-probes
-
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+    
 spec:
   validationFailureAction: Audit
 

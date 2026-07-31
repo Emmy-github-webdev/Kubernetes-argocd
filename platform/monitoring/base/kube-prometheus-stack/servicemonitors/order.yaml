@@ -3,6 +3,8 @@ kind: ServiceMonitor
 
 metadata:
   name: order-service
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
 
   labels:
     prometheus: kube-prometheus

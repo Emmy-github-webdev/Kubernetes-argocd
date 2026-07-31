@@ -3,6 +3,8 @@ kind: ClusterPolicy
 
 metadata:
   name: disallow-hostpath
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
 
 spec:
   validationFailureAction: Audit
