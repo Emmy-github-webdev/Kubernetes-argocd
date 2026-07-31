@@ -7,5 +7,4 @@ resources:
 
 patches:
   - path: ebs-csi-driver-application-patch.yaml
-  - path: velero-application-patch.yaml
   - path: backup-schedule-patch.yaml

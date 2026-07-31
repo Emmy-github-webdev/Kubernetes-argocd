@@ -1,11 +1,6 @@
-apiVersion: velero.io/v1
-kind: Schedule
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
 
-metadata:
-  name: daily-backup
 
-spec:
-  schedule: "0 2 * * *"
-
-  template:
-    ttl: 168h
+resources:
+  - schedules.yaml

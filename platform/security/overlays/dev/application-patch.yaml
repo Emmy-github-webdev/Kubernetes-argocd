@@ -3,3 +3,4 @@ kind: Application
 
 metadata:
   name: kyverno
+  namespace: argocd

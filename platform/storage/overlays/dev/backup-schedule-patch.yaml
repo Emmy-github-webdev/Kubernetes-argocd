@@ -3,6 +3,7 @@ kind: Schedule
 
 metadata:
   name: daily-backup
+  namespace: argocd
 
 spec:
   template:

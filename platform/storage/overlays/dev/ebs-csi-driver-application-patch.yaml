@@ -3,3 +3,4 @@ kind: Application
 
 metadata:
   name: ebs-csi-driver
+  namespace: argocd
