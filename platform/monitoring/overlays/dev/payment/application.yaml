@@ -18,11 +18,11 @@ spec:
         serviceMonitor:
           enabled: true
 
-    config:
-      datasource:
-        host: payment-postgres.dev.svc.cluster.local
-        port: "5432"
-        database: paymentdb
+        config:
+          datasource:
+            host: payment-postgres.dev.svc.cluster.local
+            port: "5432"
+            database: paymentdb
 
   destination:
     server: https://kubernetes.default.svc

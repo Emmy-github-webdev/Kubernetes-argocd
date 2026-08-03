@@ -18,11 +18,11 @@ spec:
         serviceMonitor:
           enabled: true
 
-    config:
-      datasource:
-        host: user-postgres.dev.svc.cluster.local
-        port: "5432"
-        database: userdb
+        config:
+          datasource:
+            host: user-postgres.dev.svc.cluster.local
+            port: "5432"
+            database: userdb
 
   destination:
     server: https://kubernetes.default.svc
