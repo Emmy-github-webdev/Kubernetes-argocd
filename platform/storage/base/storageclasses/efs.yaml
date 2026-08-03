@@ -8,8 +8,7 @@ provisioner: efs.csi.aws.com
 
 parameters:
   provisioningMode: efs-ap
-
-directoryPerms: "700"
+  directoryPerms: "700"
 
 reclaimPolicy: Delete
 
