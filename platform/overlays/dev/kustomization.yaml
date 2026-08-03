@@ -9,4 +9,3 @@ resources:
   - ../../security/overlays/dev
   - ../../tracing/overlays/dev
   - ../../storage/overlays/dev
-  - platform-namespace.yaml
