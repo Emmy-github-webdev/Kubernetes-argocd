@@ -14,7 +14,7 @@ spec:
       values: |
         clusterName: eks-dev-cluster
         region: us-east-1
-        vpcId: vpc-07b173866ae81b30b
+        vpcId: vpc-068d485a36c94f6c1
 
         serviceAccount:
           create: true
