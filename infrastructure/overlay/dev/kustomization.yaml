@@ -7,6 +7,8 @@ resources:
   - cluster-secret-store.yaml
   - ingress.yaml
   - namespace-infra.yaml
+  - order-db-secret.yaml
+  - payment-db-secret.yaml
   - postgres-master-secret.yaml
   - external-secrets-sa.yaml
   - redis-secret.yaml
