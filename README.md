@@ -291,6 +291,85 @@ If you are preparing for open-source publication, add a LICENSE file and update 
 
 ---
 
+## Deployment verification
+
+After deployment, confirm the platform is healthy with the following checks.
+
+### 1. Verify cluster context and connectivity
+
+```bash
+kubectl config current-context
+kubectl get nodes
+```
+
+If you see `No resources found` or `Unable to connect to the server`, refresh the kubeconfig:
+
+```bash
+aws eks update-kubeconfig \
+  --region <region> \
+  --name <cluster-name>
+```
+
+### 2. Check ArgoCD and application state
+
+```bash
+kubectl get applications -A
+kubectl get pods -n argocd
+```
+
+You should see ArgoCD pods and synced application resources in the `argocd` namespace.
+
+### 3. Verify namespaces and workloads
+
+```bash
+kubectl get ns
+kubectl get deployments -A
+kubectl get pods -A
+```
+
+If pods are stuck in `Pending`, `ImagePullBackOff`, or `CrashLoopBackOff`, inspect the pod and logs:
+
+```bash
+kubectl describe pod <pod-name> -n <namespace>
+kubectl logs <pod-name> -n <namespace>
+```
+
+### 4. Troubleshoot common issues
+
+```bash
+kubectl logs -n argocd deployment/argocd-application-controller
+kubectl describe deployment <deployment-name> -n <namespace>
+```
+
+Typical causes include invalid Kustomize configuration, missing namespaces, image pull errors, secret issues, or Git access problems.
+
+### 5. Restart workloads if necessary
+
+```bash
+kubectl rollout restart deployment <deployment-name> -n <namespace>
+```
+
+### 6. Validate monitoring stack
+
+```bash
+kubectl get pods -n monitoring
+kubectl get svc -n monitoring
+```
+
+For Grafana:
+
+```bash
+kubectl port-forward -n monitoring svc/kube-prometheus-stack-grafana 3000:80
+```
+
+Then open:
+
+```text
+http://localhost:3000
+```
+
+---
+
 ## Summary
 
 This repository is the GitOps backbone for an enterprise Kubernetes platform. It provides a secure, scalable, and auditable way to manage application delivery, platform components, and environment consistency across multiple deployments. The result is a modern operating model that fits the expectations of enterprise DevOps, platform engineering, and cloud-native delivery teams.
