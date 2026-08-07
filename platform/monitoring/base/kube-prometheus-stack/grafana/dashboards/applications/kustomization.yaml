@@ -1,0 +1,21 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+configMapGenerator:
+
+- name: grafana-dashboard-applications
+
+  files:
+    - springboot.json
+    - nginx.json
+    - redis.json
+    - postgresql.json
+    - kafka.json
+    - ingress-nginx.json
+
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+commonLabels:
+  grafana_dashboard: "1"

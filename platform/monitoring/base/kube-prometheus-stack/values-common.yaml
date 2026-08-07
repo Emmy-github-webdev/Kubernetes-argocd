@@ -14,58 +14,30 @@ grafana:
     storageClassName: gp3
     size: 20Gi
 
-    additionalDataSources:
-    - name: Loki
-      type: loki
-      access: proxy
-      url: http://loki.logging.svc.cluster.local:3100
-
-  defaultDashboardsEnabled: true
+  # Disable the dashboards bundled with kube-prometheus-stack.
+  # Dashboards are provisioned from Git via ConfigMaps.
+  defaultDashboardsEnabled: false
 
   sidecar:
     dashboards:
       enabled: true
       searchNamespace: ALL
 
+      # Watch ConfigMaps with this label.
+      label: grafana_dashboard
+
+      # Keep the default label value.
+      labelValue: "1"
+
+      # Automatically update dashboards when ConfigMaps change.
+      watchMethod: WATCH
+
     datasources:
       enabled: true
 
-  dashboards:
-    default:
-      kubernetes-cluster:
-        gnetId: 15757
-        revision: 42
-        datasource: Prometheus
-
-      node-exporter:
-        gnetId: 1860
-        revision: 37
-        datasource: Prometheus
-
-      ingress-nginx:
-        gnetId: 9614
-        revision: 1
-        datasource: Prometheus
-
-      spring-boot:
-        gnetId: 12900
-        revision: 1
-        datasource: Prometheus
-
-      jvm:
-        gnetId: 4701
-        revision: 10
-        datasource: Prometheus
-
-      postgres:
-        gnetId: 9628
-        revision: 7
-        datasource: Prometheus
-
-      redis:
-        gnetId: 11835
-        revision: 1
-        datasource: Prometheus
+      # Watch datasource ConfigMaps.
+      label: grafana_datasource
+      labelValue: "1"
 
 prometheus:
   prometheusSpec:
@@ -99,6 +71,7 @@ alertmanager:
 
   alertmanagerSpec:
     retention: 120h
+
     storage:
       volumeClaimTemplate:
         spec:
@@ -109,10 +82,8 @@ alertmanager:
             requests:
               storage: 10Gi
 
-    # Use Kubernetes secret for credentials
     secrets:
       - alertmanager-notification-secret
-
 
   config:
     global:
@@ -135,7 +106,6 @@ alertmanager:
           receiver: slack-critical
 
     receivers:
-
       - name: default-receiver
 
       - name: slack-critical
@@ -143,8 +113,7 @@ alertmanager:
           - api_url_file: /etc/alertmanager/secrets/alertmanager-notification-secret/slack-webhook
             channel: "#alerts"
             send_resolved: true
-            title: >-
-              {{ .CommonAnnotations.summary }}
+            title: "{{ .CommonAnnotations.summary }}"
 
       - name: email-alerts
         email_configs:
@@ -153,7 +122,6 @@ alertmanager:
             smarthost: smtp.example.com:587
             auth_username: alertmanager@example.com
             auth_password_file: /etc/alertmanager/secrets/alertmanager-email-secret/password
-
 
     inhibit_rules:
       - source_matchers:
@@ -165,7 +133,6 @@ alertmanager:
         equal:
           - namespace
           - alertname
-
 
 kubeStateMetrics:
   enabled: true
