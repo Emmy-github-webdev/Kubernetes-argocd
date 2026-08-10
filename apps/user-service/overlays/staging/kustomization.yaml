@@ -1,14 +1,18 @@
 resources:
-  - ../../base
-  - external-secret.yaml
+- ../../base
+- external-secret.yaml
 
 namespace: staging
 
 images:
   - name: 579871530627.dkr.ecr.us-east-1.amazonaws.com/ja-mics-ap/user-service
-    newTag: ${GITHUB_SHA}
+    newName: 579871530627.dkr.ecr.us-east-1.amazonaws.com/ja-mics-ap/user-service
+    newTag: 75c566e3063d58803f614facda8a3a6e0df6e812
 
 
+  
 replicas:
-  - name: user-service
-    count: 1
+- count: 1
+  name: user-service
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
