@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboard-provider
+  labels:
+    grafana_dashboard: "1"
+
+data:
+  provider.yaml: |
+    apiVersion: 1
+
+    providers:
+
+      - name: infrastructure
+        orgId: 1
+        folder: Infrastructure
+        type: file
+        disableDeletion: false
+        editable: false
+        options:
+          path: /var/lib/grafana/dashboards/infrastructure
+
+      - name: applications
+        orgId: 1
+        folder: Applications
+        type: file
+        disableDeletion: false
+        editable: false
+        options:
+          path: /var/lib/grafana/dashboards/applications
+
+      - name: sre
+        orgId: 1
+        folder: SRE
+        type: file
+        disableDeletion: false
+        editable: false
+        options:
+          path: /var/lib/grafana/dashboards/sre

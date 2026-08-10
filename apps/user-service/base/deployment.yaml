@@ -3,6 +3,10 @@ kind: Deployment
 metadata:
   name: user-service
 
+  annotations:
+
+    instrumentation.opentelemetry.io/inject-java: "true"
+
 spec:
   replicas: 2
 
@@ -22,6 +26,8 @@ spec:
     metadata:
       labels:
         app: user-service
+        networkpolicy.enabled: "true"
+        pdb.enabled: "true"
 
     spec:
       terminationGracePeriodSeconds: 30
@@ -97,6 +103,14 @@ spec:
             - containerPort: 8081
 
           env:
+            - name: OTEL_SERVICE_NAME
+              value: user-service
+
+            - name: OTEL_RESOURCE_ATTRIBUTES
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+
             - name: DB_HOST
               valueFrom:
                 secretKeyRef:

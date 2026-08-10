@@ -1,0 +1,12 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: dev
+
+resources:
+  - ../../base
+  - letsencrypt.yaml
+
+patches:
+  - path: external-dns-patch.yaml
+  - path: aws-load-balancer-controller-patch.yaml

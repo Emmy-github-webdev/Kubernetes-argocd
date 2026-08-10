@@ -1,0 +1,6 @@
+serviceMonitor:
+  enabled: true
+
+config:
+  datasource:
+    port: "5432"

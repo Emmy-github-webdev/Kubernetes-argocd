@@ -1,0 +1,13 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+
+metadata:
+  name: postgres-exporter
+  namespace: argocd
+
+spec:
+  source:
+    helm:
+      valueFiles:
+        - $values/platform/monitoring/base/postgres-exporter/values-common.yaml
+        - $values/platform/monitoring/overlays/dev/postgres-values.yaml

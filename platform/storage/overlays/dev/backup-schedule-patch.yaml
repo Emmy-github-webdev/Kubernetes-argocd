@@ -1,0 +1,11 @@
+apiVersion: velero.io/v1
+kind: Schedule
+
+metadata:
+  name: daily-backup
+  namespace: argocd
+
+spec:
+  template:
+    includedNamespaces:
+      - dev

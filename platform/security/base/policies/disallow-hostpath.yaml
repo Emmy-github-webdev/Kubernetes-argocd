@@ -1,0 +1,38 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+
+metadata:
+  name: disallow-hostpath
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+
+spec:
+  validationFailureAction: Audit
+
+  background: true
+
+  rules:
+
+    - name: hostpath-volumes
+
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+
+      exclude:
+        any:
+          - resources:
+              namespaces:
+                - kube-system
+                - kyverno
+                - flux-system
+
+      validate:
+        message: "HostPath volumes are not allowed."
+
+        pattern:
+          spec:
+            =(volumes):
+              - X(hostPath): "null"

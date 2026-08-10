@@ -3,6 +3,10 @@ kind: Deployment
 metadata:
   name: order-service
 
+  annotations:
+
+    instrumentation.opentelemetry.io/inject-java: "true"
+
 spec:
   replicas: 2
 
@@ -22,6 +26,8 @@ spec:
     metadata:
       labels:
         app: order-service
+        networkpolicy.enabled: "true"
+        pdb.enabled: "true"
 
     spec:
       terminationGracePeriodSeconds: 30
@@ -97,6 +103,14 @@ spec:
             - containerPort: 8083
 
           env:
+            - name: OTEL_SERVICE_NAME
+              value: order-service
+
+            - name: OTEL_RESOURCE_ATTRIBUTES
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+
             - name: DB_HOST
               valueFrom:
                 secretKeyRef:

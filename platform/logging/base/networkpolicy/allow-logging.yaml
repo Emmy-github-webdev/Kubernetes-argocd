@@ -1,0 +1,32 @@
+apiVersion: networking.k8s.io/v1
+
+kind: NetworkPolicy
+
+metadata:
+  name: allow-logging
+
+spec:
+
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: loki
+
+  policyTypes:
+    - Ingress
+
+  ingress:
+
+    - from:
+
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: logging
+
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: fluent-bit
+
+      ports:
+
+        - protocol: TCP
+          port: 3100

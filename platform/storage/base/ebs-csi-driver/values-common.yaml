@@ -1,0 +1,12 @@
+controller:
+  replicaCount: 2
+
+storageClasses: []
+
+enableVolumeScheduling: true
+enableVolumeResizing: true
+enableVolumeSnapshot: true
+
+serviceAccount:
+  create: true
+  name: ebs-csi-controller-sa

@@ -1,8 +1,16 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
+namespace: dev
+
 resources:
   - ../../base
+  - order/application.yaml
+  - payment/application.yaml
+  - product/application.yaml
+  - user/application.yaml
+
 
 patches:
-  - path: values-patch.yaml
+  - path: kube-prometheus-stack-patch.yaml
+  - path: postgres-exporter-patch.yaml

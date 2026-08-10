@@ -1,0 +1,39 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+
+metadata:
+  name: disallow-privileged
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+
+spec:
+  validationFailureAction: Audit
+
+  background: true
+
+  rules:
+
+    - name: privileged-container
+
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+
+      exclude:
+        any:
+          - resources:
+              namespaces:
+                - kube-system
+                - kyverno
+                - flux-system
+
+      validate:
+        message: "Privileged containers are not allowed."
+
+        pattern:
+          spec:
+            containers:
+              - securityContext:
+                  privileged: "false"

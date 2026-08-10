@@ -1,0 +1,62 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+
+metadata:
+  name: require-resource-limits
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+    
+spec:
+  validationFailureAction: Audit
+
+  background: true
+
+  rules:
+
+    - name: require-container-resources
+
+      match:
+        any:
+          - resources:
+              kinds:
+                - Deployment
+                - StatefulSet
+                - DaemonSet
+                - Job
+                - CronJob
+
+      exclude:
+        any:
+          - resources:
+              namespaces:
+                - kube-system
+                - kyverno
+                - flux-system
+
+      validate:
+        message: >-
+          All containers must define CPU and memory requests and limits.
+
+        foreach:
+
+          - list: "request.object.spec.template.spec.containers"
+
+            pattern:
+              resources:
+                requests:
+                  cpu: "?*"
+                  memory: "?*"
+                limits:
+                  cpu: "?*"
+                  memory: "?*"
+
+          - list: "request.object.spec.template.spec.initContainers"
+
+            pattern:
+              resources:
+                requests:
+                  cpu: "?*"
+                  memory: "?*"
+                limits:
+                  cpu: "?*"
+                  memory: "?*"

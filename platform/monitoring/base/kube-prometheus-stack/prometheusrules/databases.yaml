@@ -1,0 +1,83 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+
+metadata:
+  name: database-alerts
+
+  labels:
+    prometheus: kube-prometheus
+
+spec:
+  groups:
+
+    - name: postgres.rules
+
+      rules:
+
+        - alert: PostgreSQLDown
+
+          expr: |
+            pg_up == 0
+
+          for: 5m
+
+          labels:
+            severity: critical
+
+          annotations:
+            summary: PostgreSQL database is down
+            description: >
+              PostgreSQL exporter cannot connect to the database.
+
+
+        - alert: PostgreSQLTooManyConnections
+
+          expr: |
+            (
+              sum(pg_stat_database_numbackends)
+              /
+              sum(pg_settings_max_connections)
+            ) > 0.85
+
+          for: 10m
+
+          labels:
+            severity: warning
+
+          annotations:
+            summary: PostgreSQL connection usage above 85%
+            description: >
+              Database connection usage is approaching the configured limit.
+
+
+        - alert: PostgreSQLDeadlocks
+
+          expr: |
+            rate(pg_stat_database_deadlocks_total[5m]) > 0
+
+          for: 5m
+
+          labels:
+            severity: warning
+
+          annotations:
+            summary: PostgreSQL deadlocks detected
+            description: >
+              PostgreSQL is reporting deadlocks.
+
+
+        - alert: PostgreSQLSlowQueries
+
+          expr: |
+            rate(pg_stat_database_tup_returned[5m])
+            /
+            rate(pg_stat_database_tup_fetched[5m])
+            < 0.1
+
+          for: 15m
+
+          labels:
+            severity: warning
+
+          annotations:
+            summary: PostgreSQL query efficiency degraded

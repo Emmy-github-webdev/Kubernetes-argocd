@@ -1,0 +1,21 @@
+apiVersion: kyverno.io/v2
+kind: PolicyException
+
+metadata:
+  name: system-namespaces-exception
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+
+spec:
+  exceptions:
+    - policyName: "*"
+      ruleNames:
+        - "*"
+
+  match:
+    any:
+      - resources:
+          namespaces:
+            - kube-system
+            - kyverno
+            - argocd

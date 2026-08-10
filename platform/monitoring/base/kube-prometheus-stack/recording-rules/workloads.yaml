@@ -1,0 +1,54 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+
+metadata:
+  name: workload-recording-rules
+
+  labels:
+    prometheus: kube-prometheus
+
+spec:
+
+  groups:
+
+    - name: workload.recording.rules
+
+      interval: 30s
+
+      rules:
+
+        - record: namespace:pod_cpu_usage:sum
+
+          expr: |
+            sum by(namespace)
+            (
+              rate(
+                container_cpu_usage_seconds_total{
+                  container!="",
+                  image!=""
+                }[5m]
+              )
+            )
+
+
+        - record: namespace:memory_usage_bytes:sum
+
+          expr: |
+            sum by(namespace)
+            (
+              container_memory_working_set_bytes{
+                container!="",
+                image!=""
+              }
+            )
+
+
+        - record: namespace:pod_restarts:rate
+
+          expr: |
+            sum by(namespace)
+            (
+              rate(
+                kube_pod_container_status_restarts_total[15m]
+              )
+            )

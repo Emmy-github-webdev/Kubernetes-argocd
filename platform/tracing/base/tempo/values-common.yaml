@@ -1,0 +1,43 @@
+tempo:
+  reportingEnabled: false
+
+tempoQuery:
+  enabled: true
+
+
+storage:
+  trace:
+    backend: local
+
+    local:
+      path: /var/tempo/traces
+
+
+persistence:
+  enabled: true
+
+  storageClassName: gp3
+
+  size: 20Gi
+
+
+service:
+  type: ClusterIP
+
+
+metricsGenerator:
+  enabled: true
+
+  remoteWrite:
+    - url: http://prometheus-stack-kube-prom-prometheus.monitoring.svc.cluster.local:9090/api/v1/write
+
+
+resources:
+
+  requests:
+    cpu: 250m
+    memory: 512Mi
+
+  limits:
+    cpu: 1000m
+    memory: 1Gi

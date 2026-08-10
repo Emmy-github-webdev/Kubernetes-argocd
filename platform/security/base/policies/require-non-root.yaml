@@ -1,0 +1,42 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+
+metadata:
+  name: require-non-root
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+    
+spec:
+  validationFailureAction: Audit
+
+  background: true
+
+  rules:
+
+    - name: run-as-non-root
+
+      match:
+        any:
+          - resources:
+              kinds:
+                - Deployment
+                - StatefulSet
+                - DaemonSet
+
+      exclude:
+        any:
+          - resources:
+              namespaces:
+                - kube-system
+                - kyverno
+                - flux-system
+
+      validate:
+        message: "Containers must run as non-root."
+
+        pattern:
+          spec:
+            template:
+              spec:
+                securityContext:
+                  runAsNonRoot: true

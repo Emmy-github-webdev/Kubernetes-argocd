@@ -1,0 +1,39 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+
+metadata:
+
+  name: allow-tracing
+
+
+spec:
+
+  podSelector:
+
+    matchLabels:
+
+      app.kubernetes.io/name: opentelemetry-collector
+
+
+  policyTypes:
+
+    - Ingress
+
+
+  ingress:
+
+
+    - from:
+
+        - namespaceSelector: {}
+
+      ports:
+
+        - protocol: TCP
+
+          port: 4317
+
+
+        - protocol: TCP
+
+          port: 4318

@@ -1,0 +1,31 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+
+metadata:
+  name: require-pdb
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+    
+spec:
+  validationFailureAction: Audit
+
+  background: true
+
+  rules:
+
+    - name: require-pdb-label
+
+      match:
+        any:
+          - resources:
+              kinds:
+                - Deployment
+
+      validate:
+
+        message: "Deployments must define pdb.enabled=true label."
+
+        pattern:
+          metadata:
+            labels:
+              pdb.enabled: "true"

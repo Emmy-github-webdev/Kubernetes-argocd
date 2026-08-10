@@ -1,0 +1,34 @@
+apiVersion: opentelemetry.io/v1alpha1
+kind: Instrumentation
+
+metadata:
+  name: spring-boot-instrumentation
+
+spec:
+  exporter:
+    endpoint: http://opentelemetry-collector:4317
+
+  propagators:
+    - tracecontext
+    - baggage
+    - b3
+
+  sampler:
+    type: parentbased_traceidratio
+    argument: "1.0"
+
+  java:
+    image: ghcr.io/open-telemetry/opentelemetry-operator/autoinstrumentation-java:latest
+
+    env:
+      - name: OTEL_TRACES_EXPORTER
+        value: otlp
+
+      - name: OTEL_METRICS_EXPORTER
+        value: none
+
+      - name: OTEL_LOGS_EXPORTER
+        value: none
+
+      - name: OTEL_RESOURCE_ATTRIBUTES
+        value: service.namespace=REPLACE_ME

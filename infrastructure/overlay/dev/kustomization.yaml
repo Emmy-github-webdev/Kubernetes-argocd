@@ -10,8 +10,6 @@ resources:
   - order-db-secret.yaml
   - payment-db-secret.yaml
   - postgres-master-secret.yaml
-  - product-db-secret.yaml
-  - user-db-secret.yaml
   - external-secrets-sa.yaml
   - redis-secret.yaml
   - job.yaml
