@@ -2,18 +2,27 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 
 metadata:
-  name: ecommerce-ingress
+  name: ingress-prod
 
   annotations:
     kubernetes.io/ingress.class: alb
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/target-type: ip
 
+    # HTTPS configuration
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80},{"HTTPS":443}]'
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:579871530627:certificate/220f82b0-2c72-4b01-b620-741cfbba00d9
+
+    # Redirect HTTP to HTTPS
+    alb.ingress.kubernetes.io/ssl-redirect: '443'
+
+    external-dns.alpha.kubernetes.io/hostname: api.prod.emmanuelogah.com
+
 spec:
   ingressClassName: alb
 
   rules:
-    - host: api.emmanuelogah.com
+    - host: api.prod.emmanuelogah.com
 
       http:
         paths:
@@ -24,7 +33,7 @@ spec:
               service:
                 name: user-service
                 port:
-                  number: 8081
+                  number: 80
 
           - path: /orders
             pathType: Prefix
@@ -32,7 +41,7 @@ spec:
               service:
                 name: order-service
                 port:
-                  number: 8083
+                  number: 80
 
           - path: /payments
             pathType: Prefix
@@ -40,7 +49,7 @@ spec:
               service:
                 name: payment-service
                 port:
-                  number: 8084
+                  number: 80
 
           - path: /products
             pathType: Prefix
@@ -48,4 +57,4 @@ spec:
               service:
                 name: product-service
                 port:
-                  number: 8082
+                  number: 80
