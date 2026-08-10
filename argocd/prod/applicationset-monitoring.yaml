@@ -2,21 +2,20 @@ apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 
 metadata:
-  name: prod-microservices
+  name: prod-monitoring
   namespace: argocd
 
 spec:
   generators:
     - list:
         elements:
-          - name: user-service
-          - name: order-service
-          - name: payment-service
-          - name: product-service
+          - name: monitoring
+            path: platform/overlays/prod
+            namespace: prod
 
   template:
     metadata:
-      name: '{{name}}-prod'
+      name: "{{name}}-prod"
 
     spec:
       project: default
@@ -24,16 +23,13 @@ spec:
       source:
         repoURL: https://github.com/Emmy-github-webdev/Kubernetes-argocd.git
         targetRevision: main
-        path: apps/{{name}}/overlays/prod
+        path: "{{path}}"
 
       destination:
         server: https://kubernetes.default.svc
-        namespace: prod
+        namespace: "{{namespace}}"
 
       syncPolicy:
         automated:
           prune: true
-          selfHeal: true
-
-        syncOptions:
-          - CreateNamespace=true                                                                                             
+          selfHeal: true                                                                                                                                                    
