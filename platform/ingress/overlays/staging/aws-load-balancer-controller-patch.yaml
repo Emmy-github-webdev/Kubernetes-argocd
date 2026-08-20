@@ -7,14 +7,14 @@ metadata:
 
 spec:
   destination:
-    namespace: dev
+    namespace: staging
 
   source:
     helm:
       values: |
-        clusterName: eks-dev-cluster
+        clusterName: eks-staging-cluster
         region: us-east-1
-        vpcId: vpc-071a46a25fb293ca6
+        vpcId: vpc-06601a547622eb138
 
         serviceAccount:
           create: true

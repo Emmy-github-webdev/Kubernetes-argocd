@@ -7,14 +7,14 @@ metadata:
 
 spec:
   destination:
-    namespace: dev
+    namespace: prod
 
   source:
     helm:
       values: |
-        clusterName: eks-dev-cluster
+        clusterName: eks-prod-cluster
         region: us-east-1
-        vpcId: vpc-071a46a25fb293ca6
+        vpcId: vpc-06601a547622eb138
 
         serviceAccount:
           create: true
