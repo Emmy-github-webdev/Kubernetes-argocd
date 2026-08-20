@@ -10,8 +10,8 @@ spec:
     - list:
         elements:
           - name: ingress
-            path: infrastructure/ingress/prod
-            namespace: kube-system
+            path: infrastructure/overlay/prod
+            namespace: prod
 
   template:
     metadata:
@@ -33,3 +33,5 @@ spec:
         automated:
           prune: true
           selfHeal: true
+        syncOptions:
+          - CreateNamespace=true                                                                                                                                                                             

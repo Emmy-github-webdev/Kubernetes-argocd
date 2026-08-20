@@ -1,0 +1,102 @@
+apiVersion: batch/v1
+kind: Job
+
+metadata:
+  name: postgres-init
+  namespace: prod
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+
+spec:
+  backoffLimit: 3
+
+  template:
+    spec:
+      restartPolicy: Never
+
+      containers:
+        - name: postgres-init
+
+          image: postgres:16
+
+          command:
+            - sh
+            - -c
+            - |
+                set -e
+
+                until pg_isready -h "$DB_HOST" -U "$DB_USER"; do
+                  echo "Waiting for PostgreSQL..."
+                  sleep 10
+                done
+
+                apt-get update
+                apt-get install -y gettext
+
+                envsubst < /sql/init.sql > /tmp/init.sql
+
+                psql \
+                  -h "$DB_HOST" \
+                  -p "$DB_PORT" \
+                  -U "$DB_USER" \
+                  -d postgres \
+                  -f /tmp/init.sql
+
+          env:
+
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-master
+                  key: password
+
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-master
+                  key: host
+
+            - name: DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-master
+                  key: port
+
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-master
+                  key: username
+
+            - name: ORDER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: order-db-secret
+                  key: password
+
+            - name: PAYMENT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: payment-db-secret
+                  key: password
+
+            - name: PRODUCT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: product-db-secret
+                  key: password
+
+            - name: USER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: user-db-secret
+                  key: password
+
+          volumeMounts:
+            - name: sql
+              mountPath: /sql
+
+      volumes:
+        - name: sql
+          configMap:
+            name: postgres-init-sql 
