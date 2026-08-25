@@ -1,0 +1,31 @@
+{
+	"annotations": {"list": [{"builtIn": 1, "datasource": {"type": "grafana", "uid": "-- Grafana --"}, "enable": true, "hide": true, "iconColor": "#5794F2", "name": "Annotations & Alerts", "type": "dashboard"}]},
+	"editable": false,
+	"graphTooltip": 1,
+	"id": null,
+	"links": [],
+	"panels": [
+		{"type": "row", "title": "Service health", "gridPos": {"h": 1, "w": 24, "x": 0, "y": 0}, "panels": []},
+		{"type": "stat", "title": "Healthy workloads", "description": "Ready replicas divided by desired replicas.", "gridPos": {"h": 4, "w": 6, "x": 0, "y": 1}, "datasource": {"type": "prometheus", "uid": "prometheus"}, "targets": [{"expr": "sum(kube_deployment_status_replicas_available{namespace=~\"$namespace\"}) / clamp_min(sum(kube_deployment_spec_replicas{namespace=~\"$namespace\"}), 1) * 100", "refId": "A", "legendFormat": "availability"}], "fieldConfig": {"defaults": {"unit": "percent", "decimals": 1, "thresholds": {"mode": "absolute", "steps": [{"color": "red", "value": null}, {"color": "orange", "value": 95}, {"color": "green", "value": 99}]}, "color": {"mode": "thresholds"}}, "overrides": []}, "options": {"reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": false}, "orientation": "auto", "textMode": "auto", "colorMode": "background", "graphMode": "area", "justifyMode": "center"}},
+		{"type": "stat", "title": "Restarts / 1h", "gridPos": {"h": 4, "w": 6, "x": 6, "y": 1}, "datasource": {"type": "prometheus", "uid": "prometheus"}, "targets": [{"expr": "sum(increase(kube_pod_container_status_restarts_total{namespace=~\"$namespace\"}[1h]))", "refId": "A"}], "fieldConfig": {"defaults": {"unit": "short", "decimals": 0, "thresholds": {"mode": "absolute", "steps": [{"color": "green", "value": null}, {"color": "orange", "value": 1}, {"color": "red", "value": 5}]}, "color": {"mode": "thresholds"}}, "overrides": []}, "options": {"reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": false}, "colorMode": "background", "graphMode": "area", "textMode": "auto"}},
+		{"type": "stat", "title": "CPU usage", "gridPos": {"h": 4, "w": 6, "x": 12, "y": 1}, "datasource": {"type": "prometheus", "uid": "prometheus"}, "targets": [{"expr": "sum(rate(container_cpu_usage_seconds_total{namespace=~\"$namespace\",container!=\"\"}[5m])) / clamp_min(sum(kube_pod_container_resource_requests{namespace=~\"$namespace\",resource=\"cpu\"}), 0.001) * 100", "refId": "A"}], "fieldConfig": {"defaults": {"unit": "percent", "decimals": 1, "thresholds": {"mode": "absolute", "steps": [{"color": "green", "value": null}, {"color": "orange", "value": 70}, {"color": "red", "value": 90}]}, "color": {"mode": "thresholds"}}, "overrides": []}, "options": {"reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": false}, "colorMode": "background", "graphMode": "area", "textMode": "auto"}},
+		{"type": "stat", "title": "Memory usage", "gridPos": {"h": 4, "w": 6, "x": 18, "y": 1}, "datasource": {"type": "prometheus", "uid": "prometheus"}, "targets": [{"expr": "sum(container_memory_working_set_bytes{namespace=~\"$namespace\",container!=\"\"}) / clamp_min(sum(kube_pod_container_resource_requests{namespace=~\"$namespace\",resource=\"memory\"}), 1) * 100", "refId": "A"}], "fieldConfig": {"defaults": {"unit": "percent", "decimals": 1, "thresholds": {"mode": "absolute", "steps": [{"color": "green", "value": null}, {"color": "orange", "value": 70}, {"color": "red", "value": 90}]}, "color": {"mode": "thresholds"}}, "overrides": []}, "options": {"reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": false}, "colorMode": "background", "graphMode": "area", "textMode": "auto"}},
+		{"type": "row", "title": "Reliability signals", "gridPos": {"h": 1, "w": 24, "x": 0, "y": 5}, "panels": []},
+		{"type": "timeseries", "title": "Pod restarts by workload", "gridPos": {"h": 8, "w": 12, "x": 0, "y": 6}, "datasource": {"type": "prometheus", "uid": "prometheus"}, "targets": [{"expr": "sum by (pod) (increase(kube_pod_container_status_restarts_total{namespace=~\"$namespace\",pod=~\"$pod\"}[5m]))", "refId": "A", "legendFormat": "{{pod}}"}], "fieldConfig": {"defaults": {"unit": "short", "custom": {"drawStyle": "line", "lineInterpolation": "smooth", "lineWidth": 2, "fillOpacity": 12, "showPoints": "never", "spanNulls": true}}, "overrides": []}, "options": {"legend": {"displayMode": "table", "placement": "bottom", "calcs": ["lastNotNull", "max"]}, "tooltip": {"mode": "multi", "sort": "desc"}}},
+		{"type": "timeseries", "title": "Container memory by workload", "gridPos": {"h": 8, "w": 12, "x": 12, "y": 6}, "datasource": {"type": "prometheus", "uid": "prometheus"}, "targets": [{"expr": "sum by (pod) (container_memory_working_set_bytes{namespace=~\"$namespace\",pod=~\"$pod\",container!=\"\"})", "refId": "A", "legendFormat": "{{pod}}"}], "fieldConfig": {"defaults": {"unit": "bytes", "custom": {"drawStyle": "line", "lineInterpolation": "smooth", "lineWidth": 2, "fillOpacity": 12, "showPoints": "never", "spanNulls": true}}, "overrides": []}, "options": {"legend": {"displayMode": "table", "placement": "bottom", "calcs": ["lastNotNull", "max"]}, "tooltip": {"mode": "multi", "sort": "desc"}}}
+	],
+	"refresh": "30s",
+	"schemaVersion": 39,
+	"style": "dark",
+	"tags": ["sre", "kubernetes", "production-readiness"],
+	"templating": {"list": [
+		{"name": "namespace", "label": "Environment", "type": "query", "datasource": {"type": "prometheus", "uid": "prometheus"}, "query": "label_values(kube_namespace_labels, namespace)", "includeAll": true, "allValue": ".*", "multi": true, "refresh": 1, "sort": 1},
+		{"name": "pod", "label": "Workload", "type": "query", "datasource": {"type": "prometheus", "uid": "prometheus"}, "query": "label_values(kube_pod_info{namespace=~\"$namespace\"}, pod)", "includeAll": true, "allValue": ".*", "multi": true, "refresh": 1, "sort": 1}
+	]},
+	"time": {"from": "now-6h", "to": "now"},
+	"timepicker": {"refresh_intervals": ["30s", "1m", "5m", "15m"], "time_options": ["5m", "15m", "1h", "6h", "12h", "24h", "2d", "7d"]},
+	"timezone": "browser",
+	"title": "Platform | Service Health",
+	"uid": "platform-service-health",
+	"version": 1
+}

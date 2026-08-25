@@ -1,4 +1,4 @@
-name: ArgoCD
+name: ArgoCD Bootstrap
 
 on:
   push:
@@ -10,31 +10,24 @@ on:
 permissions:
   id-token: write
   contents: read
-  pull-requests: write
-  issues: read
-  security-events: write
-
 
 jobs:
-  bootstrap:
-    name: Bootstrap ${{ matrix.environment }}
+  bootstrap-dev:
+    name: Bootstrap dev
     runs-on: ubuntu-latest
-    environment: ${{ matrix.environment }}
+    environment: dev
 
-    strategy:
-      matrix:
-        include:
-          - environment: dev
-            cluster: eks-dev-cluster
-          - environment: staging
-            cluster: eks-staging-cluster
-          - environment: prod
-            cluster: eks-prod-cluster
+    if: |
+      contains(github.event.head_commit.modified, 'argocd/dev/') ||
+      contains(github.event.head_commit.added, 'argocd/dev/') ||
+      contains(github.event.head_commit.renamed, 'argocd/dev/')
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - uses: aws-actions/configure-aws-credentials@v4
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: us-east-1
@@ -48,24 +41,101 @@ jobs:
         run: |
           aws eks update-kubeconfig \
             --region us-east-1 \
-            --name ${{ matrix.cluster }}
+            --name eks-dev-cluster
 
-      - name: Apply Root Application
+      - name: Apply Argo CD root application
         run: |
-          kubectl apply -f argocd/${{ matrix.environment }}/root-app.yaml
+          kubectl apply \
+            --namespace argocd \
+            --filename argocd/dev/root-app.yaml
 
-      - name: Wait for Root Application
+      - name: Show Argo CD applications
         run: |
-          kubectl wait \
-            --for=condition=Established \
-            crd/applications.argoproj.io \
-            --timeout=60s || true
+          kubectl get applications \
+            --namespace argocd
 
-      - name: Show Applications
+
+  bootstrap-staging:
+    name: Bootstrap staging
+    runs-on: ubuntu-latest
+    environment: staging
+
+    if: |
+      contains(github.event.head_commit.modified, 'argocd/staging/') ||
+      contains(github.event.head_commit.added, 'argocd/staging/') ||
+      contains(github.event.head_commit.renamed, 'argocd/staging/')
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: us-east-1
+
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v4
+        with:
+          version: latest
+
+      - name: Configure kubeconfig
         run: |
-          kubectl get applications -n argocd || true
+          aws eks update-kubeconfig \
+            --region us-east-1 \
+            --name eks-staging-cluster
 
-      - name: Show ApplicationSets
+      - name: Apply Argo CD root application
         run: |
-          kubectl get applicationsets -n argocd || true 
+          kubectl apply \
+            --namespace argocd \
+            --filename argocd/staging/root-app.yaml
 
+      - name: Show Argo CD applications
+        run: |
+          kubectl get applications \
+            --namespace argocd
+
+
+  bootstrap-prod:
+    name: Bootstrap prod
+    runs-on: ubuntu-latest
+    environment: prod
+
+    if: |
+      contains(github.event.head_commit.modified, 'argocd/prod/') ||
+      contains(github.event.head_commit.added, 'argocd/prod/') ||
+      contains(github.event.head_commit.renamed, 'argocd/prod/')
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: us-east-1
+
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v4
+        with:
+          version: latest
+
+      - name: Configure kubeconfig
+        run: |
+          aws eks update-kubeconfig \
+            --region us-east-1 \
+            --name eks-prod-cluster
+
+      - name: Apply Argo CD root application
+        run: |
+          kubectl apply \
+            --namespace argocd \
+            --filename argocd/prod/root-app.yaml
+
+      - name: Show Argo CD applications
+        run: |
+          kubectl get applications \
+            --namespace argocd
