@@ -46,6 +46,7 @@ grafana:
           editable: false
           options:
             path: /var/lib/grafana/dashboards/sre
+            
 
   sidecar:
     dashboards:
