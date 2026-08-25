@@ -13,26 +13,35 @@ spec:
             path: infrastructure/overlay/prod
             namespace: prod
 
-  template:
-    metadata:
-      name: '{{name}}-prod'
+template:
+  metadata:
+    name: '{{name}}-prod'
 
-    spec:
-      project: default
+  spec:
+    project: default
 
-      source:
-        repoURL: https://github.com/Emmy-github-webdev/Kubernetes-argocd.git
-        targetRevision: main
-        path: '{{path}}'
+    source:
+      repoURL: https://github.com/Emmy-github-webdev/Kubernetes-argocd.git
+      targetRevision: main
+      path: apps/{{name}}/overlays/prod
 
-      destination:
-        server: https://kubernetes.default.svc
-        namespace: '{{namespace}}'
+    destination:
+      server: https://kubernetes.default.svc
+      namespace: prod
 
-      syncPolicy:
-        automated:
-          prune: true
-          selfHeal: true
-        syncOptions:
-          - CreateNamespace=true       
-                                                                                                                                                                                
+    revisionHistoryLimit: 5
+
+    syncPolicy:
+      automated:
+        prune: true
+        selfHeal: true
+
+      retry:
+        limit: 5
+        backoff:
+          duration: 5s
+          factor: 2
+          maxDuration: 3m
+
+      syncOptions:
+        - CreateNamespace=true                                                                                                                                                                              

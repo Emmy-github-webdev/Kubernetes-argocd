@@ -8,7 +8,7 @@ metadata:
 
 spec:
   acme:
-    email: admin@dev.example.com
+    email: ogaemmanuel@ymail.com
 
     server: https://acme-v02.api.letsencrypt.org/directory
 
