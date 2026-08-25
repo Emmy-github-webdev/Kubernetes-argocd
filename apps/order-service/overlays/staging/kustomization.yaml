@@ -1,14 +1,18 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
 resources:
-  - ../../base
-  - external-secret.yaml
+- ../../base
+- external-secret.yaml
 
 namespace: staging
 
 images:
   - name: 579871530627.dkr.ecr.us-east-1.amazonaws.com/ja-mics-ap/order-service
-    newTag: ${GITHUB_SHA}
-
+    newName: 579871530627.dkr.ecr.us-east-1.amazonaws.com/ja-mics-ap/order-service
+    newTag: 28693b4fcc780e82605d4368b13dc437037b4567
 
 replicas:
-  - name: order-service
-    count: 1
+- count: 1
+  name: order-service
+

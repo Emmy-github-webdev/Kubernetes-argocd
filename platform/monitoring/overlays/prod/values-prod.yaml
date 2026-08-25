@@ -1,0 +1,20 @@
+grafana:
+  persistence:
+    storageClassName: gp3
+    size: 20Gi
+
+prometheus:
+  prometheusSpec:
+    retention: 30d
+
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: gp3
+
+alertmanager:
+  alertmanagerSpec:
+    storage:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: gp3

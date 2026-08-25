@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+
+metadata:
+  name: external-dns
+  namespace: argocd
+
+spec:
+  destination:
+    namespace: staging
+    
+  source:
+    helm:
+      values: |
+        provider: aws
+
+        policy: sync
+
+        registry: txt
+
+        txtOwnerId: eks-staging-cluster
+
+        domainFilters:
+          - api.staging.emmanuelogah.com
+
+        serviceAccount:
+          create: true
+          name: external-dns
+
+        serviceMonitor:
+          enabled: true
+          additionalLabels:
+            prometheus: kube-prometheus

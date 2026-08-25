@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+
+metadata:
+  name: aws-load-balancer-controller
+  namespace: argocd
+
+spec:
+  destination:
+    namespace: prod
+
+  source:
+    helm:
+      values: |
+        clusterName: eks-prod-cluster
+        region: us-east-1
+        vpcId: vpc-0c380b62de2a2f517
+
+        serviceAccount:
+          create: true
+          name: aws-load-balancer-controller
+
+        replicaCount: 2
+
+        metrics:
+          serviceMonitor:
+            enabled: true
+            additionalLabels:
+              prometheus: kube-prometheus

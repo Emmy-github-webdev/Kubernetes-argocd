@@ -1,0 +1,18 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: prod
+
+resources:
+  - ../../base
+  - order/application.yaml
+  - payment/application.yaml
+  - product/application.yaml
+  - user/application.yaml
+
+
+patches:
+  - path: kube-prometheus-stack-patch.yaml
+  - path: postgres-exporter-patch.yaml
+  - path: external-secret-patch.yaml
+  - path: grafana-external-secret-patch.yaml
