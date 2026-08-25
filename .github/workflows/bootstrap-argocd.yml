@@ -12,15 +12,36 @@ permissions:
   contents: read
 
 jobs:
+  changes:
+    runs-on: ubuntu-latest
+
+    outputs:
+      dev: ${{ steps.filter.outputs.dev }}
+      staging: ${{ steps.filter.outputs.staging }}
+      prod: ${{ steps.filter.outputs.prod }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Detect changes
+        id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            dev:
+              - 'argocd/dev/**'
+            staging:
+              - 'argocd/staging/**'
+            prod:
+              - 'argocd/prod/**'
+
   bootstrap-dev:
     name: Bootstrap dev
+    needs: changes
+    if: needs.changes.outputs.dev == 'true'
     runs-on: ubuntu-latest
     environment: dev
-
-    if: |
-      contains(github.event.head_commit.modified, 'argocd/dev/') ||
-      contains(github.event.head_commit.added, 'argocd/dev/') ||
-      contains(github.event.head_commit.renamed, 'argocd/dev/')
 
     steps:
       - name: Checkout
@@ -54,16 +75,12 @@ jobs:
           kubectl get applications \
             --namespace argocd
 
-
   bootstrap-staging:
     name: Bootstrap staging
+    needs: changes
+    if: needs.changes.outputs.staging == 'true'
     runs-on: ubuntu-latest
     environment: staging
-
-    if: |
-      contains(github.event.head_commit.modified, 'argocd/staging/') ||
-      contains(github.event.head_commit.added, 'argocd/staging/') ||
-      contains(github.event.head_commit.renamed, 'argocd/staging/')
 
     steps:
       - name: Checkout
@@ -97,16 +114,12 @@ jobs:
           kubectl get applications \
             --namespace argocd
 
-
   bootstrap-prod:
     name: Bootstrap prod
+    needs: changes
+    if: needs.changes.outputs.prod == 'true'
     runs-on: ubuntu-latest
     environment: prod
-
-    if: |
-      contains(github.event.head_commit.modified, 'argocd/prod/') ||
-      contains(github.event.head_commit.added, 'argocd/prod/') ||
-      contains(github.event.head_commit.renamed, 'argocd/prod/')
 
     steps:
       - name: Checkout
