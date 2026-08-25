@@ -1,0 +1,12 @@
+{
+	"annotations": {"list": []},
+	"editable": false,
+	"panels": [{"datasource": {"type": "prometheus", "uid": "prometheus"}, "fieldConfig": {"defaults": {}, "overrides": []}, "gridPos": {"h": 8, "w": 24, "x": 0, "y": 0}, "id": 1, "options": {}, "targets": [{"expr": "count(kube_namespace_created)", "refId": "A"}], "title": "Namespaces", "type": "timeseries"}],
+	"schemaVersion": 39,
+	"tags": ["infrastructure", "namespaces"],
+	"templating": {"list": []},
+	"time": {"from": "now-6h", "to": "now"},
+	"title": "Infrastructure | Namespaces",
+	"uid": "infrastructure-namespaces",
+	"version": 1
+}

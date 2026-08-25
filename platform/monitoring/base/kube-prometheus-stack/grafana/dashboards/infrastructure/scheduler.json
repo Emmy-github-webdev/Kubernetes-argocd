@@ -1,0 +1,12 @@
+{
+	"annotations": {"list": []},
+	"editable": false,
+	"panels": [{"datasource": {"type": "prometheus", "uid": "prometheus"}, "fieldConfig": {"defaults": {}, "overrides": []}, "gridPos": {"h": 8, "w": 24, "x": 0, "y": 0}, "id": 1, "options": {}, "targets": [{"expr": "up", "refId": "A"}], "title": "Scheduler availability", "type": "timeseries"}],
+	"schemaVersion": 39,
+	"tags": ["infrastructure", "scheduler"],
+	"templating": {"list": []},
+	"time": {"from": "now-6h", "to": "now"},
+	"title": "Infrastructure | Scheduler",
+	"uid": "infrastructure-scheduler",
+	"version": 1
+}
