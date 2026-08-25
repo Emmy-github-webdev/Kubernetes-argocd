@@ -7,6 +7,11 @@ configMapGenerator:
 
   files:
     - slo.json
+    - alerts.json
+    - api-latency.json
+    - availability.json
+    - capacity-planning.json
+    - error-budget.json
 
 generatorOptions:
   disableNameSuffixHash: true

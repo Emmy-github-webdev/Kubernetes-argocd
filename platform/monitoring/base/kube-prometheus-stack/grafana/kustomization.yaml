@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - networkpolicy.yaml
   - datasources
+  - dashboards
