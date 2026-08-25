@@ -7,11 +7,6 @@ configMapGenerator:
 
   files:
     - springboot.json
-    - nginx.json
-    - redis.json
-    - postgresql.json
-    - kafka.json
-    - ingress-nginx.json
 
 
 generatorOptions:
