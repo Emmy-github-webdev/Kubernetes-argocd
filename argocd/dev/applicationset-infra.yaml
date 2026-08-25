@@ -9,7 +9,7 @@ spec:
   generators:
     - list:
         elements:
-          - name: ingress
+          - name: infrastructure
             path: infrastructure/overlay/dev
             namespace: dev
 
