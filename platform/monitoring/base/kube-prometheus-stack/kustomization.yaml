@@ -12,5 +12,6 @@ resources:
   - redis-exporter/
   - servicemonitors/
   - application.yaml
+  - dashboard-application.yaml
   - external-secret.yaml
   

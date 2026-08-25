@@ -1,0 +1,12 @@
+{
+	"annotations": {"list": []},
+	"editable": false,
+	"panels": [{"datasource": {"type": "prometheus", "uid": "prometheus"}, "fieldConfig": {"defaults": {}, "overrides": []}, "gridPos": {"h": 8, "w": 24, "x": 0, "y": 0}, "id": 1, "options": {}, "targets": [{"expr": "up", "refId": "A"}], "title": "Controller manager availability", "type": "timeseries"}],
+	"schemaVersion": 39,
+	"tags": ["infrastructure", "controller-manager"],
+	"templating": {"list": []},
+	"time": {"from": "now-6h", "to": "now"},
+	"title": "Infrastructure | Controller manager",
+	"uid": "infrastructure-controller-manager",
+	"version": 1
+}

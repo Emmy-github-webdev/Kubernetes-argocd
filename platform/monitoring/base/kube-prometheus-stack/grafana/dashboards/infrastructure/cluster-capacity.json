@@ -1,0 +1,12 @@
+{
+	"annotations": {"list": []},
+	"editable": false,
+	"panels": [{"datasource": {"type": "prometheus", "uid": "prometheus"}, "fieldConfig": {"defaults": {}, "overrides": []}, "gridPos": {"h": 8, "w": 24, "x": 0, "y": 0}, "id": 1, "options": {}, "targets": [{"expr": "sum(kube_node_status_allocatable{resource=\"cpu\"})", "refId": "A"}], "title": "Allocatable CPU", "type": "timeseries"}],
+	"schemaVersion": 39,
+	"tags": ["infrastructure", "capacity"],
+	"templating": {"list": []},
+	"time": {"from": "now-6h", "to": "now"},
+	"title": "Infrastructure | Cluster capacity",
+	"uid": "infrastructure-cluster-capacity",
+	"version": 1
+}

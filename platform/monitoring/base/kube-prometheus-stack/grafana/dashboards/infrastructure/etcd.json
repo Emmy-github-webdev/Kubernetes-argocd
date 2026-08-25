@@ -1,0 +1,12 @@
+{
+	"annotations": {"list": []},
+	"editable": false,
+	"panels": [{"datasource": {"type": "prometheus", "uid": "prometheus"}, "fieldConfig": {"defaults": {}, "overrides": []}, "gridPos": {"h": 8, "w": 24, "x": 0, "y": 0}, "id": 1, "options": {}, "targets": [{"expr": "up", "refId": "A"}], "title": "Etcd availability", "type": "timeseries"}],
+	"schemaVersion": 39,
+	"tags": ["infrastructure", "etcd"],
+	"templating": {"list": []},
+	"time": {"from": "now-6h", "to": "now"},
+	"title": "Infrastructure | Etcd",
+	"uid": "infrastructure-etcd",
+	"version": 1
+}
