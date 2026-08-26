@@ -14,7 +14,7 @@ spec:
       values: |
         clusterName: eks-staging-cluster
         region: us-east-1
-        vpcId: vpc-005f6048371c9baa0
+        vpcId: vpc-0aa6a934982aceee6
 
         serviceAccount:
           create: true
