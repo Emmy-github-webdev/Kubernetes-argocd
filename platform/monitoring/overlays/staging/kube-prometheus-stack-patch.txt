@@ -6,7 +6,7 @@ metadata:
   namespace: argocd
 
 spec:
-  source:
+  sources:
     helm:
       valueFiles:
         - $values/platform/monitoring/base/kube-prometheus-stack/values-common.yaml
