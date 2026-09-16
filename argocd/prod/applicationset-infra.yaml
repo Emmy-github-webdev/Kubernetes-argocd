@@ -44,4 +44,5 @@ template:
           maxDuration: 3m
 
       syncOptions:
-        - CreateNamespace=true                                                                                                                                                                              
+        - CreateNamespace=true   
+                                                                                                                                                                                   
