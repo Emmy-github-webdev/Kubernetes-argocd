@@ -19,7 +19,6 @@ spec:
       helm:
         valueFiles:
           - $values/platform/monitoring/base/kube-prometheus-stack/values-common.yaml
-          - $values/platform/monitoring/overlays/staging/values-staging.yaml
 
     # Git repository containing the values files
     - repoURL: https://github.com/Emmy-github-webdev/Kubernetes-argocd.git
