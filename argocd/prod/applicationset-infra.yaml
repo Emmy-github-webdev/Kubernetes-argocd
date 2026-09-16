@@ -23,11 +23,11 @@ template:
     source:
       repoURL: https://github.com/Emmy-github-webdev/Kubernetes-argocd.git
       targetRevision: main
-      path: apps/{{name}}/overlays/prod
+      path: '{{path}}'
 
     destination:
       server: https://kubernetes.default.svc
-      namespace: prod
+      namespace: '{{namespace}}'
 
     revisionHistoryLimit: 5
 
